@@ -38,13 +38,13 @@ plugins:
   - tags:
       tags_file: tags.md
 
-  - rss:
-      match_path: "posts/.*"
-      pretty_print: true
-      use_git: false
-      date_from_meta:
-        as_creation: date.created
-        as_update: date.updated
+  # - rss:
+  #     match_path: "posts/.*"
+  #     pretty_print: true
+  #     use_git: false
+  #     date_from_meta:
+  #       as_creation: date.created
+  #       as_update: date.updated
 
 hooks:
   - hooks/socialmedia.py
