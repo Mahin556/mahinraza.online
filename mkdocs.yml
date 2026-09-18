@@ -1,6 +1,7 @@
 site_name: My Awesome documentation
 site_description: A blogging site built with Material of MkDocs
 site_url: https://sitename.example
+
 theme:
   name: material
   palette:
@@ -25,7 +26,6 @@ plugins:
   - search
   - blog:
       blog_dir: .
-
       archive_date_format: yyyy
       # archive_date_format: MM/yyyy
       archive_url_date_format: yyyy
@@ -66,3 +66,4 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
