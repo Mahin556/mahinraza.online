@@ -4,26 +4,55 @@ site_url: https://sitename.example
 
 theme:
   name: material
-  palette:
-    - scheme: slate
-      primary: light-blue
-      accent: deep-purple
-      toggle:
-        icon: material/weather-sunny
-        name: Dark Mode
+  language: en
+  custom_dir: overrides
+  # palette:
+  #   - scheme: slate
+  #     primary: light-blue
+  #     accent: deep-purple
+  #     toggle:
+  #       icon: material/weather-sunny
+  #       name: Dark Mode
+  #   - scheme: default
+  #     primary: indigo
+  #     accent: indigo
+  #     toggle:
+  #       icon: material/weather-night
+  #       name: Light Mode
 
-    - scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: Light Mode
+  palette:
+      - media: "(prefers-color-scheme)"
+        scheme: default
+      - media: "(prefers-color-scheme: light)"
+        scheme: default
+      - media: "(prefers-color-scheme: dark)"
+        scheme: slate
+
+  features:
+    # - navigation.instant      # SPA-like loading for a smoother experience
+    - navigation.tracking     # URL updates as you scroll
+    - navigation.tabs         # Top-level navigation as tabs
+    - navigation.sections     # Group navigation items into sections
+    # - navigation.expand       # Expand all sections by default
+    - navigation.indexes      # Use section index pages
+    - navigation.top          # "Back to top" button
+    - search.suggest          # Search suggestions as you type
+    - search.highlight        # Highlight search terms on the page
+    - content.code.copy       # Add a "copy" button to code blocks
+    - content.code.annotate   # Enable code annotations
+    - content.tabs.link
+    - toc.integrate
+    - toc.follow
 
 extra_css: 
   - stylesheets/extra.css
 
+extra_javascript:
+  - javascripts/theme-dropdown.js
+
 plugins: 
   - search
+  # - social
   - blog:
       blog_dir: .
       archive_date_format: yyyy
@@ -50,15 +79,16 @@ hooks:
   - hooks/socialmedia.py
 
 extra:
+  generator: false
   social:
     - icon: simple/youtube
       link: https://youtube.com/@james-willett
     - icon: fontawesome/brands/github-alt
-      link: https://github.com/james-willett
+      link: https://github.com/mahin556
     - icon: fontawesome/brands/twitter
       link: https://twitter.com/TheJamesWillett
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/willettjames/
+      link: https://www.linkedin.com/in/mahinraza/
 
 markdown_extensions:
   - attr_list
@@ -67,3 +97,53 @@ markdown_extensions:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
+nav:
+  - Home: index.md
+
+  - Linux:
+      - Overview: linux/index.md
+      - Filesystem: linux/filesystem.md
+      - Permissions: linux/permissions.md
+      - Processes: linux/processes.md
+      - Systemd: linux/systemd.md
+
+  - Networking:
+      - Overview: networking/index.md
+      - OSI Model: networking/osi.md
+      - TCP/IP: networking/tcp-ip.md
+      - DNS: networking/dns.md
+      - DHCP: networking/dhcp.md
+
+  - Kubernetes:
+      - Overview: kubernetes/index.md
+      - Architecture: kubernetes/architecture.md
+      - Pods: kubernetes/pods.md
+      - Deployments: kubernetes/deployments.md
+      - Services: kubernetes/services.md
+      - Ingress: kubernetes/ingress.md
+      - Storage:
+          - PV: kubernetes/storage/pv.md
+          - PVC: kubernetes/storage/pvc.md
+
+  - Containers:
+      - Docker: containers/docker.md
+      - Podman: containers/podman.md
+      - Containerd: containers/containerd.md
+
+  - Ansible:
+      - Overview: ansible/index.md
+      - Playbooks: ansible/playbooks.md
+      - Jinja2: ansible/jinja2.md
+
+  - Terraform:
+      - Overview: terraform/index.md
+      - Providers: terraform/providers.md
+      - Resources: terraform/resources.md
+
+  - Cloud:
+      - AWS: cloud/aws.md
+      - GCP: cloud/gcp.md
+      - Azure: cloud/azure.md
+
+copyright: |
+  &copy; 2026 Your Company Name or Author. All rights reserved.
