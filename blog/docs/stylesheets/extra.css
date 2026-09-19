@@ -46,3 +46,106 @@
   --md-accent-fg-color: #5A8DEE;
   --md-typeset-a-color: #5A8DEE;
 }
+
+/* Dark background for the footer */
+.md-footer {
+  background-color: #212121; 
+}
+
+/* Center everything and make it short */
+.md-footer-meta__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.8rem 0; /* Reduced padding makes it short */
+}
+
+/* Style for your name and designation */
+.md-copyright__highlight {
+  color: #ffffff;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+/* Optional: If you want to hide the social icons to make it even shorter */
+.md-footer-social {
+  margin-bottom: 0.5rem;
+}
+
+.theme-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.theme-dropdown__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.theme-dropdown__toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.theme-dropdown__menu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 8px);
+  min-width: 100px;
+  background: #212529;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  list-style: none;
+  margin: 0;
+  padding: 3px;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 100;
+}
+
+.theme-dropdown.open .theme-dropdown__menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.theme-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: #cfd8e3;
+  transition: background 0.12s ease;
+}
+
+.theme-dropdown__item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.theme-dropdown__item.active {
+  background: #2a3a5c;           /* was #e6f1fb — dark-mode active state */
+  color: #5A8DEE;                /* was #1a56db — matches your accent color */
+  font-weight: 600;
+}
+
+.theme-dropdown__icon {
+  display: flex;
+  align-items: center;
+}
