@@ -90,7 +90,7 @@ npm run preview
 ## Deploying to Cloudflare Pages (`blog.mahinraza.online`)
 
 1. Sign in to the [Cloudflare Dashboard](https://dash.cloudflare.com/) and open **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Select the `Mahin556/blog` GitHub repository.
+2. Select the `Mahin556/mahinraza.online` GitHub repository.
 3. Configure the build settings:
    - **Production branch:** `master` (or `main`)
    - **Framework preset:** `Astro`
@@ -104,8 +104,8 @@ npm run preview
   ──────
   ### Next Steps for You
 
-  1. Commit and push your repository changes to GitHub (Mahin556/blog).
-  2. In Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git, select Mahin556/blog with:
+  1. Commit and push your repository changes to GitHub (Mahin556/mahinraza.online).
+  2. In Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git, select Mahin556/mahinraza.online with:
       • Build command: npm run build
       • Build output directory: dist
       • Environment variable: NODE_VERSION = 20

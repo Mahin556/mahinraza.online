@@ -491,7 +491,7 @@ function parsePostFile(
     readingTimeText: `${readingTimeMinutes} min read`,
     ogImage,
     sourcePath: relSourcePath,
-    githubEditUrl: `${SITE_CONFIG.repoUrl}/blob/master/${relSourcePath}`,
+    githubEditUrl: `${SITE_CONFIG.repoUrl}/blob/main/${relSourcePath}`,
     isDirectoryPost,
   };
 }

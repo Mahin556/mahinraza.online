@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
   shortRole: 'DevOps & Cloud Engineering',
   description:
     'Practical engineering guides on AWS, Kubernetes, Observability, OpenTelemetry, Prometheus, Incident Response, and Site Reliability Engineering by Mahin Raza.',
-  repoUrl: 'https://github.com/Mahin556/blog',
+  repoUrl: 'https://github.com/Mahin556/mahinraza.online',
   githubProfileUrl: 'https://github.com/Mahin556',
   portfolioUrl: 'https://mahinraza.online',
   defaultOgImage: '/og-default.png',
