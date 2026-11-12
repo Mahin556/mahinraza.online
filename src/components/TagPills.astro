@@ -1,0 +1,40 @@
+---
+import { getTagAccent } from '../lib/colors';
+import { slugifyTerm } from '../lib/posts';
+
+interface Props {
+  tags: string[];
+  limit?: number;
+  size?: 'sm' | 'md';
+}
+
+const { tags, limit, size = 'sm' } = Astro.props;
+const visibleTags = typeof limit === 'number' ? tags.slice(0, limit) : tags;
+const remaining = typeof limit === 'number' ? Math.max(0, tags.length - limit) : 0;
+const sizeClasses =
+  size === 'md'
+    ? 'px-3 py-1 text-xs'
+    : 'px-2.5 py-0.5 text-xs';
+---
+
+{visibleTags.length > 0 && (
+  <div class="flex flex-wrap items-center gap-1.5">
+    {visibleTags.map((tag) => {
+      const accent = getTagAccent(tag);
+      return (
+        <a
+          href={`/tag/${slugifyTerm(tag)}/`}
+          class={`inline-flex items-center gap-1.5 rounded-full border font-medium transition-colors ${sizeClasses} ${accent.pill}`}
+        >
+          <span class={`h-1.5 w-1.5 rounded-full ${accent.dot}`} aria-hidden="true"></span>
+          <span>{tag}</span>
+        </a>
+      );
+    })}
+    {remaining > 0 && (
+      <span class="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+        +{remaining}
+      </span>
+    )}
+  </div>
+)}

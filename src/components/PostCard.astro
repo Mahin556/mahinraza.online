@@ -1,0 +1,87 @@
+---
+import type { BlogPost } from '../lib/posts';
+import { getCardAccent } from '../lib/colors';
+import TagPills from './TagPills.astro';
+
+interface Props {
+  post: BlogPost;
+  index?: number;
+}
+
+const { post, index = 0 } = Astro.props;
+const accent = getCardAccent(index);
+---
+
+<article
+  data-post-card
+  data-category={post.categorySlug}
+  data-search={`${post.title} ${post.description} ${post.category} ${post.tags.join(' ')}`.toLowerCase()}
+  class={`group relative flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-6 shadow-sm ring-1 ring-gray-100 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg ${accent.cardHover}`}
+>
+  <!-- Subtle light-mode gradient tint on hover -->
+  <div
+    class={`pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-transparent to-transparent transition-all duration-300 ${accent.gradientOverlay}`}
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative z-10 flex flex-col flex-1">
+    <!-- Category + Reading Time -->
+    <div class="flex items-center justify-between gap-2 text-xs text-gray-500">
+      <a
+        href={`/category/${post.categorySlug}/`}
+        class="inline-flex items-center rounded-md bg-gray-100 px-2.5 py-0.5 font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
+      >
+        {post.category}
+      </a>
+      <span class="shrink-0 text-gray-400">
+        {post.formattedDate} &middot; {post.readingTimeText}
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h2 class={`mt-3.5 text-lg font-bold tracking-tight text-gray-900 transition-colors leading-snug ${accent.titleHover}`}>
+      <a href={`/posts/${post.slug}/`} class="focus:outline-none">
+        {post.title}
+      </a>
+    </h2>
+
+    <!-- Description -->
+    <p class="mt-2.5 line-clamp-3 text-sm leading-6 text-gray-600 flex-1">
+      {post.description}
+    </p>
+
+    <!-- Tags -->
+    <div class="mt-4">
+      <TagPills tags={post.tags} limit={3} size="sm" />
+    </div>
+  </div>
+
+  <!-- Card Footer: Author + Read Link -->
+  <div class="relative z-10 mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
+    <a
+      href={post.author.githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 text-xs font-medium text-gray-600 hover:text-gray-900 transition-colors"
+    >
+      <img
+        src={post.author.avatarUrl}
+        alt={post.author.name}
+        width="24"
+        height="24"
+        loading="lazy"
+        decoding="async"
+        class="h-6 w-6 rounded-full bg-gray-100 ring-1 ring-gray-200 object-cover"
+      />
+      <span>@{post.author.username}</span>
+    </a>
+
+    <a
+      href={`/posts/${post.slug}/`}
+      class={`inline-flex items-center gap-1 text-xs font-semibold transition-colors ${accent.cta}`}
+    >
+      <span>Read</span>
+      <span aria-hidden="true" class="transition-transform group-hover:translate-x-0.5">&rarr;</span>
+    </a>
+  </div>
+</article>

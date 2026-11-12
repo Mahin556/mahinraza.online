@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://blog.mahinraza.online/sitemap-index.xml
+Host: https://blog.mahinraza.online

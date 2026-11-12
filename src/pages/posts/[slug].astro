@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagPills from '../../components/TagPills.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import PostCard from '../../components/PostCard.astro';
+import { loadAllPosts, getRelatedPosts, type BlogPost } from '../../lib/posts';
+import { renderPostMarkdown } from '../../lib/markdown';
+import { SITE_CONFIG } from '../../lib/site';
+
+export function getStaticPaths() {
+  const posts = loadAllPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const { html, toc } = await renderPostMarkdown(
+  post.body,
+  post.slug,
+  post.isDirectoryPost
+);
+const relatedPosts = getRelatedPosts(post, 3);
+
+const canonicalPostUrl = `${SITE_CONFIG.siteUrl}/posts/${post.slug}/`;
+const encodedUrl = encodeURIComponent(canonicalPostUrl);
+const encodedTitle = encodeURIComponent(post.title);
+
+const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+const linkedinShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${encodedTitle}`;
+---
+
+<BaseLayout
+  title={post.title}
+  description={post.description}
+  ogImage={post.ogImage}
+  ogType="article"
+  publishedTime={post.dateISO}
+  modifiedTime={post.dateISO}
+  authorName={post.author.name}
+  authorUrl={post.author.githubUrl}
+  tags={post.tags}
+  canonicalPath={`/posts/${post.slug}/`}
+  breadcrumbs={[
+    { name: 'Articles', url: '/' },
+    { name: post.category, url: `/category/${post.categorySlug}/` },
+    { name: post.title },
+  ]}
+>
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+
+  <!-- Article Hero -->
+  <header class="border-b border-gray-100 bg-white pt-10 pb-10 sm:pt-14 sm:pb-12">
+    <div class="mx-auto max-w-4xl px-6 lg:px-8">
+      <!-- Breadcrumb & Category -->
+      <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+        <a href="/" class="font-medium text-gray-500 hover:text-blue-600 transition-colors">
+          Articles
+        </a>
+        <span aria-hidden="true">/</span>
+        <a
+          href={`/category/${post.categorySlug}/`}
+          class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-0.5 font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
+        >
+          {post.category}
+        </a>
+      </div>
+
+      <!-- Title -->
+      <h1 class="mt-5 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+        {post.title}
+      </h1>
+
+      <!-- Summary -->
+      <p class="mt-5 text-lg sm:text-xl leading-relaxed text-gray-600">
+        {post.description}
+      </p>
+
+      <!-- Author, Date & Reading Time -->
+      <div class="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-gray-100 pt-6">
+        <a
+          href={post.author.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-3 group"
+        >
+          <img
+            src={post.author.avatarUrl}
+            alt={post.author.name}
+            width="40"
+            height="40"
+            loading="eager"
+            decoding="async"
+            class="h-10 w-10 rounded-full bg-gray-100 ring-1 ring-gray-200 object-cover"
+          />
+          <div>
+            <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+              {post.author.name}
+            </div>
+            <div class="text-xs text-gray-500">
+              <time datetime={post.dateISO}>{post.formattedDate}</time>
+              <span class="mx-1.5" aria-hidden="true">&middot;</span>
+              <span>{post.readingTimeText}</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Tags -->
+        <TagPills tags={post.tags} size="sm" />
+      </div>
+    </div>
+  </header>
+
+  <!-- Article Body + Desktop TOC -->
+  <div class="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:px-8">
+    <div class="mx-auto flex max-w-5xl items-start justify-center gap-12">
+      <!-- Center Article Column -->
+      <div class="relative min-w-0 max-w-3xl flex-1">
+        <!-- Floating Social Share Rail (Desktop >= 1280px) -->
+        <div class="floating-share" aria-label="Share article">
+          <a
+            href={twitterShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on X (Twitter)"
+            title="Share on X"
+          >
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+          <a
+            href={linkedinShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on LinkedIn"
+            title="Share on LinkedIn"
+          >
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+            </svg>
+          </a>
+          <a
+            href={hnShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Share on Hacker News"
+            title="Share on Hacker News"
+          >
+            <span class="font-bold text-xs leading-none">Y</span>
+          </a>
+          <button
+            type="button"
+            data-copy-post-link={canonicalPostUrl}
+            class="copy-link-btn"
+            aria-label="Copy article link"
+            title="Copy link"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile / Tablet Collapsible TOC -->
+        <TableOfContents items={toc} variant="mobile" />
+
+        <!-- Rendered Markdown Body -->
+        <article id="article-body" class="blog-body" set:html={html} />
+
+        <!-- Bottom Share & Edit Strip -->
+        <div class="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-gray-50/60 p-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 mr-1">
+              Share:
+            </span>
+            <a
+              href={twitterShareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-blue-300 hover:text-blue-600 transition-colors"
+            >
+              <span>X / Twitter</span>
+            </a>
+            <a
+              href={linkedinShareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-blue-300 hover:text-blue-600 transition-colors"
+            >
+              <span>LinkedIn</span>
+            </a>
+            <a
+              href={hnShareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-orange-300 hover:text-orange-600 transition-colors"
+            >
+              <span>Hacker News</span>
+            </a>
+            <button
+              type="button"
+              data-copy-post-link={canonicalPostUrl}
+              class="copy-link-btn inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-blue-300 hover:text-blue-600 transition-colors"
+            >
+              <span data-copy-label>Copy link</span>
+            </button>
+          </div>
+
+          <a
+            href={post.githubEditUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            <span>Edit on GitHub</span>
+          </a>
+        </div>
+
+        <!-- Author Bio Card -->
+        <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm ring-1 ring-gray-100">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <img
+              src={post.author.avatarUrl}
+              alt={post.author.name}
+              width="64"
+              height="64"
+              loading="lazy"
+              decoding="async"
+              class="h-16 w-16 rounded-full bg-gray-100 ring-2 ring-gray-100 object-cover"
+            />
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">
+                    Written by
+                  </span>
+                  <h2 class="text-lg font-bold text-gray-900">
+                    {post.author.name}
+                  </h2>
+                </div>
+                <a
+                  href={post.author.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                >
+                  <span>Follow @{post.author.username}</span>
+                </a>
+              </div>
+              <p class="mt-2 text-sm leading-6 text-gray-600">
+                {post.author.bio}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Sticky TOC -->
+      <TableOfContents items={toc} variant="desktop" />
+    </div>
+
+    <!-- Related Posts -->
+    {relatedPosts.length > 0 && (
+      <section aria-labelledby="related-posts-heading" class="mt-20 border-t border-gray-100 pt-14">
+        <div class="flex items-center justify-between gap-4 mb-8">
+          <h2 id="related-posts-heading" class="text-2xl font-bold tracking-tight text-gray-900">
+            Related Engineering Guides
+          </h2>
+          <a href="/" class="text-sm font-semibold text-blue-600 hover:text-blue-500">
+            All articles &rarr;
+          </a>
+        </div>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {relatedPosts.map((relPost, idx) => (
+            <PostCard post={relPost} index={idx} />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+
+  <!-- Back to Top Button -->
+  <button
+    type="button"
+    id="back-to-top"
+    class="back-to-top"
+    aria-label="Scroll back to top"
+  >
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+
+  <!-- Image Lightbox Overlay -->
+  <div id="blog-lightbox" class="blog-lightbox-overlay" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button type="button" id="blog-lightbox-close" class="blog-lightbox-close" aria-label="Close image preview">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <img id="blog-lightbox-img" src="" alt="" />
+  </div>
+
+  <script is:inline>
+    (function () {
+      const progressBar = document.getElementById('reading-progress');
+      const articleBody = document.getElementById('article-body');
+      const backToTopBtn = document.getElementById('back-to-top');
+
+      // 1. Reading progress & Back-to-top visibility
+      function onScroll() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        if (articleBody && progressBar) {
+          const rect = articleBody.getBoundingClientRect();
+          const articleTop = rect.top + scrollTop;
+          const total = Math.max(1, articleBody.offsetHeight - window.innerHeight * 0.6);
+          const pct = Math.min(100, Math.max(0, ((scrollTop - articleTop + 120) / total) * 100));
+          progressBar.style.width = pct + '%';
+        }
+        if (backToTopBtn) {
+          backToTopBtn.classList.toggle('visible', scrollTop > 500);
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      // 2. Active Table of Contents scroll-spy
+      const tocLinks = Array.from(document.querySelectorAll('[data-toc-link]'));
+      if (tocLinks.length > 0 && articleBody) {
+        const headings = Array.from(articleBody.querySelectorAll('h2[id], h3[id]'));
+        function updateActiveToc() {
+          let activeId = headings[0] ? headings[0].id : '';
+          for (const h of headings) {
+            if (h.getBoundingClientRect().top <= 140) {
+              activeId = h.id;
+            } else {
+              break;
+            }
+          }
+          tocLinks.forEach((link) => {
+            const match = link.getAttribute('data-toc-link') === activeId;
+            link.classList.toggle('toc-active', match);
+          });
+        }
+        window.addEventListener('scroll', updateActiveToc, { passive: true });
+        updateActiveToc();
+      }
+
+      // 3. Copy code buttons
+      document.querySelectorAll('.code-copy-btn').forEach((btn) => {
+        btn.addEventListener('click', async function () {
+          const pre = btn.closest('pre');
+          const codeEl = pre ? pre.querySelector('code') : null;
+          if (!codeEl) return;
+          const labelSpan = btn.querySelector('span');
+          try {
+            await navigator.clipboard.writeText(codeEl.innerText || codeEl.textContent || '');
+            btn.classList.add('copied');
+            if (labelSpan) labelSpan.textContent = 'Copied!';
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              if (labelSpan) labelSpan.textContent = 'Copy';
+            }, 2000);
+          } catch {
+            btn.classList.add('copy-failed');
+            if (labelSpan) labelSpan.textContent = 'Failed';
+            setTimeout(() => {
+              btn.classList.remove('copy-failed');
+              if (labelSpan) labelSpan.textContent = 'Copy';
+            }, 2000);
+          }
+        });
+      });
+
+      // 4. Copy article link buttons
+      document.querySelectorAll('[data-copy-post-link]').forEach((btn) => {
+        btn.addEventListener('click', async function () {
+          const url = btn.getAttribute('data-copy-post-link') || window.location.href;
+          const label = btn.querySelector('[data-copy-label]');
+          try {
+            await navigator.clipboard.writeText(url);
+            btn.classList.add('copied');
+            if (label) label.textContent = 'Copied!';
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              if (label) label.textContent = 'Copy link';
+            }, 2000);
+          } catch {
+            btn.classList.add('copy-failed');
+            setTimeout(() => btn.classList.remove('copy-failed'), 2000);
+          }
+        });
+      });
+
+      // 5. Image Lightbox
+      const lightbox = document.getElementById('blog-lightbox');
+      const lightboxImg = document.getElementById('blog-lightbox-img');
+      const lightboxClose = document.getElementById('blog-lightbox-close');
+
+      if (articleBody && lightbox && lightboxImg) {
+        articleBody.querySelectorAll('img').forEach((img) => {
+          img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt || '';
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        function closeLightbox() {
+          lightbox.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+
+        lightbox.addEventListener('click', closeLightbox);
+        if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+          }
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

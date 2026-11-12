@@ -1,0 +1,149 @@
+---
+import { SITE_CONFIG } from '../lib/site';
+
+const pathname = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/', label: 'Articles', active: pathname === '/' || pathname.startsWith('/page/') || pathname.startsWith('/posts/') },
+  { href: '/categories/', label: 'Categories', active: pathname.startsWith('/categories') || pathname.startsWith('/category/') },
+  { href: '/tags/', label: 'Tags', active: pathname.startsWith('/tags') || pathname.startsWith('/tag/') },
+  { href: '/rss.xml', label: 'RSS', active: false },
+];
+---
+
+<header class="site-header sticky top-0 z-40 bg-white/95 backdrop-blur border-b-2 border-gray-100">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="flex h-16 sm:h-20 items-center justify-between gap-4">
+      <!-- Brand Identity -->
+      <div class="flex items-center">
+        <a href="/" class="group inline-flex items-center gap-3 focus:outline-none">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-900 text-white font-bold text-sm tracking-tight shadow-sm ring-1 ring-gray-900/10 group-hover:bg-blue-600 transition-colors">
+            MR
+          </span>
+          <span class="flex flex-col">
+            <span class="text-base sm:text-lg font-bold tracking-tight text-gray-900 leading-tight group-hover:text-blue-600 transition-colors">
+              {SITE_CONFIG.brandName}
+            </span>
+            <span class="text-xs font-medium text-gray-500 leading-tight">
+              {SITE_CONFIG.shortRole}
+            </span>
+          </span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8" aria-label="Primary">
+        {navLinks.map((item) => (
+          <a
+            href={item.href}
+            class={`text-sm font-medium transition-colors ${
+              item.active
+                ? 'text-blue-600 font-semibold'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Actions: Search + GitHub + Mobile Menu -->
+      <div class="flex items-center gap-2.5">
+        <button
+          type="button"
+          data-open-search
+          aria-label="Search articles"
+          class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50/80 px-3 sm:px-3.5 py-1.5 text-sm text-gray-600 shadow-sm hover:border-blue-300 hover:bg-white hover:text-gray-900 transition-all"
+        >
+          <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <span class="hidden sm:inline">Search</span>
+          <kbd class="hidden lg:inline-flex items-center rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-medium text-gray-400">
+            /
+          </kbd>
+        </button>
+
+        <a
+          href={SITE_CONFIG.githubProfileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mahin Raza on GitHub"
+          class="hidden sm:inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-sm font-medium text-gray-700 shadow-sm hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 transition-all"
+        >
+          <svg class="h-4 w-4 text-gray-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span>@{SITE_CONFIG.author.username}</span>
+        </a>
+
+        <!-- Mobile Hamburger Button -->
+        <button
+          type="button"
+          id="mobile-menu-toggle"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+          class="md:hidden inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+        >
+          <svg id="menu-icon-open" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="menu-icon-close" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white px-6 py-4 shadow-lg">
+    <nav class="flex flex-col space-y-2" aria-label="Mobile Primary">
+      {navLinks.map((item) => (
+        <a
+          href={item.href}
+          class={`rounded-lg px-3 py-2 text-base font-medium transition-colors ${
+            item.active
+              ? 'bg-blue-50 text-blue-700 font-semibold'
+              : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+          }`}
+        >
+          {item.label}
+        </a>
+      ))}
+      <div class="pt-2 mt-2 border-t border-gray-100 flex items-center justify-between">
+        <a
+          href={SITE_CONFIG.githubProfileUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+        >
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span>GitHub (@{SITE_CONFIG.author.username})</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  (function () {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    if (toggleBtn && menu && openIcon && closeIcon) {
+      toggleBtn.addEventListener('click', function () {
+        const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+        toggleBtn.setAttribute('aria-expanded', String(!expanded));
+        menu.classList.toggle('hidden', expanded);
+        openIcon.classList.toggle('hidden', !expanded);
+        closeIcon.classList.toggle('hidden', expanded);
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,7 @@
+# Redirect legacy URL paths cleanly to the root-level blog structure
+/blog / 301
+/blog/ / 301
+/blog/rss.xml /rss.xml 301
+/blog/post/:slug/view /posts/:slug/ 301
+/blog/post/:slug /posts/:slug/ 301
+/blog/tag/:tag /tag/:tag/ 301

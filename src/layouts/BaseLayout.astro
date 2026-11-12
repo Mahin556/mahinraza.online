@@ -1,0 +1,187 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchModal from '../components/SearchModal.astro';
+import { SITE_CONFIG } from '../lib/site';
+
+interface BreadcrumbItem {
+  name: string;
+  url?: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  authorName?: string;
+  authorUrl?: string;
+  tags?: string[];
+  canonicalPath?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE_CONFIG.description,
+  ogImage = SITE_CONFIG.defaultOgImage,
+  ogType = 'website',
+  publishedTime,
+  modifiedTime,
+  authorName = SITE_CONFIG.author.name,
+  authorUrl = SITE_CONFIG.author.githubUrl,
+  tags = [],
+  canonicalPath,
+  breadcrumbs,
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} | ${SITE_CONFIG.brandName}`
+  : `${SITE_CONFIG.title} ${SITE_CONFIG.subtitle}`;
+
+const canonicalUrl = new URL(
+  canonicalPath ?? Astro.url.pathname,
+  SITE_CONFIG.siteUrl
+).toString();
+
+const absoluteOgImage = ogImage.startsWith('http')
+  ? ogImage
+  : new URL(ogImage, SITE_CONFIG.siteUrl).toString();
+
+const structuredData =
+  ogType === 'article'
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: title || SITE_CONFIG.title,
+        description,
+        image: absoluteOgImage,
+        url: canonicalUrl,
+        mainEntityOfPage: canonicalUrl,
+        datePublished: publishedTime,
+        dateModified: modifiedTime || publishedTime,
+        keywords: tags.join(', '),
+        author: {
+          '@type': 'Person',
+          name: authorName,
+          url: authorUrl,
+        },
+        publisher: {
+          '@type': 'Person',
+          name: SITE_CONFIG.brandName,
+          url: SITE_CONFIG.siteUrl,
+        },
+      }
+    : {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: `${SITE_CONFIG.brandName} — ${SITE_CONFIG.shortRole} Blog`,
+        url: SITE_CONFIG.siteUrl,
+        description: SITE_CONFIG.description,
+        author: {
+          '@type': 'Person',
+          name: SITE_CONFIG.author.name,
+          url: SITE_CONFIG.author.githubUrl,
+        },
+      };
+
+const breadcrumbSchema =
+  breadcrumbs && breadcrumbs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((item, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: item.name,
+          ...(item.url
+            ? { item: new URL(item.url, SITE_CONFIG.siteUrl).toString() }
+            : {}),
+        })),
+      }
+    : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={authorName} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE_CONFIG.brandName} — DevOps & Cloud Engineering RSS Feed`}
+      href={`${SITE_CONFIG.siteUrl}/rss.xml`}
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Fonts: Geist (400-800) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,400..800;1,400..800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- OpenGraph Metadata -->
+    <meta property="og:site_name" content={`${SITE_CONFIG.brandName} — ${SITE_CONFIG.shortRole}`} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title || `${SITE_CONFIG.title} ${SITE_CONFIG.subtitle}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+    {tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title || `${SITE_CONFIG.title} ${SITE_CONFIG.subtitle}`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:url" content={canonicalUrl} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content={authorName} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
+  </head>
+  <body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+    >
+      Skip to main content
+    </a>
+
+    <Header />
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+    <SearchModal />
+  </body>
+</html>
