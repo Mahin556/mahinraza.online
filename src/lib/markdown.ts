@@ -181,12 +181,12 @@ export async function renderPostMarkdown(
 
         const sizeClasses =
           depth === 1
-            ? 'my-6 mt-10 text-3xl font-bold tracking-tight text-gray-900'
+            ? 'my-6 mt-10 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50'
             : depth === 2
-              ? 'my-5 mt-10 text-2xl sm:text-3xl font-bold tracking-tight text-gray-800'
+              ? 'my-5 mt-10 text-2xl sm:text-3xl font-bold tracking-tight text-slate-800 dark:text-slate-100'
               : depth === 3
-                ? 'my-4 mt-8 text-xl sm:text-2xl font-semibold tracking-tight text-gray-800'
-                : 'my-3 mt-6 text-lg font-semibold text-gray-800';
+                ? 'my-4 mt-8 text-xl sm:text-2xl font-semibold tracking-tight text-slate-800 dark:text-slate-100'
+                : 'my-3 mt-6 text-lg font-semibold text-slate-800 dark:text-slate-200';
 
         const anchorSvg = `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>`;
 
@@ -195,7 +195,7 @@ export async function renderPostMarkdown(
 
       paragraph({ tokens }) {
         const innerHtml = this.parser.parseInline(tokens);
-        return `<p class="mt-5 mb-2 leading-8 text-slate-700 text-[17px]">${innerHtml}</p>\n`;
+        return `<p class="mt-5 mb-2 leading-8 text-slate-700 dark:text-slate-300 text-[17px]">${innerHtml}</p>\n`;
       },
 
       link({ href, title, tokens }) {
@@ -203,7 +203,7 @@ export async function renderPostMarkdown(
         const isExternal = href.startsWith('http://') || href.startsWith('https://');
         const targetAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
-        return `<a href="${escapeHtml(href)}"${titleAttr}${targetAttrs} class="font-semibold text-teal-700 underline underline-offset-4 decoration-teal-300 hover:decoration-teal-600 hover:text-teal-800 transition-colors">${innerHtml}</a>`;
+        return `<a href="${escapeHtml(href)}"${titleAttr}${targetAttrs} class="font-semibold text-teal-700 dark:text-teal-400 underline underline-offset-4 decoration-teal-300 dark:decoration-teal-500/40 hover:decoration-teal-600 dark:hover:decoration-teal-300 hover:text-teal-800 dark:hover:text-teal-300 transition-colors">${innerHtml}</a>`;
       },
 
       image({ href, title, text }) {
@@ -219,7 +219,7 @@ export async function renderPostMarkdown(
           resolvedSrc = `/post-assets/${postSlug}/${resolvedSrc.replace(/^\.\//, '')}`;
         }
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
-        return `<img src="${escapeHtml(resolvedSrc)}" alt="${escapeHtml(text || '')}"${titleAttr} loading="lazy" decoding="async" class="my-8 rounded-xl border border-slate-200 max-w-full h-auto block bg-white" />`;
+        return `<img src="${escapeHtml(resolvedSrc)}" alt="${escapeHtml(text || '')}"${titleAttr} loading="lazy" decoding="async" class="my-8 rounded-xl border border-slate-200 dark:border-slate-700/80 max-w-full h-auto block bg-white dark:bg-slate-900" />`;
       },
 
       codespan({ text }) {
@@ -258,7 +258,7 @@ export async function renderPostMarkdown(
         let headerCells = '';
         for (const cell of token.header) {
           const align = cell.align ? ` style="text-align:${cell.align}"` : '';
-          headerCells += `<th${align} class="px-4 py-2.5 border-r last:border-r-0 border-gray-200 font-semibold text-gray-900 bg-gray-50">${this.parser.parseInline(cell.tokens)}</th>`;
+          headerCells += `<th${align} class="px-4 py-2.5 border-r last:border-r-0 border-slate-200 dark:border-slate-700/80 font-semibold text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-800/80">${this.parser.parseInline(cell.tokens)}</th>`;
         }
 
         let bodyRows = '';
@@ -266,12 +266,12 @@ export async function renderPostMarkdown(
           let rowCells = '';
           for (const cell of row) {
             const align = cell.align ? ` style="text-align:${cell.align}"` : '';
-            rowCells += `<td${align} class="px-4 py-2.5 border-r last:border-r-0 border-gray-200 text-gray-600">${this.parser.parseInline(cell.tokens)}</td>`;
+            rowCells += `<td${align} class="px-4 py-2.5 border-r last:border-r-0 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300">${this.parser.parseInline(cell.tokens)}</td>`;
           }
-          bodyRows += `<tr class="border-b border-gray-200 last:border-b-0">${rowCells}</tr>`;
+          bodyRows += `<tr class="border-b border-slate-200 dark:border-slate-800 last:border-b-0">${rowCells}</tr>`;
         }
 
-        return `<div class="overflow-x-auto my-8 rounded-xl border border-gray-200"><table class="min-w-full text-sm text-left"><thead class="border-b border-gray-200"><tr>${headerCells}</tr></thead><tbody>${bodyRows}</tbody></table></div>\n`;
+        return `<div class="overflow-x-auto my-8 rounded-xl border border-slate-200 dark:border-slate-700/80"><table class="min-w-full text-sm text-left"><thead class="border-b border-slate-200 dark:border-slate-700/80"><tr>${headerCells}</tr></thead><tbody>${bodyRows}</tbody></table></div>\n`;
       },
     },
   });

@@ -14,16 +14,16 @@ const categories = getAllCategories();
     { name: 'Categories' },
   ]}
 >
-  <section class="border-b border-slate-200/80 bg-white py-12 sm:py-14">
+  <section class="border-b border-slate-200/80 dark:border-slate-800/90 bg-white dark:bg-[#0d1426] py-12 sm:py-14">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <div class="max-w-2xl">
-        <span class="inline-flex items-center rounded-md border border-teal-200 bg-teal-50 px-2.5 py-1 font-mono text-xs font-medium text-teal-800">
+        <span class="inline-flex items-center rounded-md border border-teal-200 dark:border-teal-700/60 bg-teal-50 dark:bg-teal-950/60 px-2.5 py-1 font-mono text-xs font-medium text-teal-800 dark:text-teal-300">
           ~/categories &middot; {categories.length} tracks
         </span>
-        <h1 class="mt-4 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+        <h1 class="mt-4 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-50">
           Engineering Categories
         </h1>
-        <p class="mt-3 text-base sm:text-lg leading-7 text-slate-600">
+        <p class="mt-3 text-base sm:text-lg leading-7 text-slate-600 dark:text-slate-300">
           Structured engineering tracks covering AWS infrastructure, Kubernetes, OpenTelemetry, Prometheus, and Site Reliability Engineering.
         </p>
       </div>
@@ -37,7 +37,7 @@ const categories = getAllCategories();
         return (
           <a
             href={`/category/${cat.slug}/`}
-            class={`group relative flex flex-col justify-between overflow-hidden rounded-xl border border-slate-200/90 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 ${accent.cardHover}`}
+            class={`group relative flex flex-col justify-between overflow-hidden rounded-xl border border-slate-200/90 dark:border-slate-800/90 bg-white dark:bg-slate-900/85 p-6 shadow-sm dark:shadow-[0_2px_10px_rgba(2,6,23,0.35)] transition-all duration-200 hover:-translate-y-0.5 ${accent.cardHover}`}
           >
             <div
               class={`pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-transparent transition-colors duration-200 ${accent.topBar}`}
@@ -46,16 +46,16 @@ const categories = getAllCategories();
 
             <div>
               <div class="flex items-center justify-between gap-2">
-                <h2 class={`font-display text-lg font-bold tracking-tight text-slate-900 transition-colors ${accent.titleHover}`}>
+                <h2 class={`font-display text-lg font-bold tracking-tight text-slate-900 dark:text-slate-100 transition-colors ${accent.titleHover}`}>
                   {cat.name}
                 </h2>
-                <span class="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-600">
+                <span class="inline-flex items-center rounded-md border border-slate-200 dark:border-slate-700/80 bg-slate-50 dark:bg-slate-800/80 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-600 dark:text-slate-300">
                   {cat.count} {cat.count === 1 ? 'blog' : 'blogs'}
                 </span>
               </div>
 
               {cat.description && (
-                <p class="mt-3 text-sm leading-6 text-slate-600">
+                <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
                   {cat.description}
                 </p>
               )}

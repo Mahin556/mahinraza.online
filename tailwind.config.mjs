@@ -3,8 +3,7 @@ import typography from '@tailwindcss/typography';
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  // Strictly light-theme only: never respond to prefers-color-scheme: dark
-  darkMode: ['selector', '[data-never-dark-mode]'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {

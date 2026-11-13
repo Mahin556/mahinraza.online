@@ -108,12 +108,27 @@ const breadcrumbSchema =
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light only" />
-    <meta name="theme-color" content="#0f766e" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" id="meta-theme-color" content="#0b1120" />
+
+    <!-- Prevent flash of wrong theme before first paint (defaults to dark) -->
+    <script is:inline>
+      (function () {
+        try {
+          const saved = localStorage.getItem('blog-theme');
+          const theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+          const isDark = theme === 'dark';
+          document.documentElement.classList.toggle('dark', isDark);
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+          const meta = document.getElementById('meta-theme-color');
+          if (meta) meta.setAttribute('content', isDark ? '#0b1120' : '#0f766e');
+        } catch (_) {}
+      })();
+    </script>
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -167,10 +182,10 @@ const breadcrumbSchema =
       <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     )}
   </head>
-  <body class="min-h-screen flex flex-col bg-[#f8fafc] text-slate-900 antialiased selection:bg-teal-100 selection:text-teal-950">
+  <body class="min-h-screen flex flex-col bg-[#f8fafc] text-slate-900 dark:bg-[#0b1120] dark:text-slate-100 antialiased selection:bg-teal-100 selection:text-teal-950 dark:selection:bg-teal-500/30 dark:selection:text-teal-100 transition-colors duration-200">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-teal-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
     >
       Skip to main content
     </a>
