@@ -36,6 +36,10 @@ export interface BlogPost {
   devtoDraft: boolean;
   /** Optional DEV Community series name */
   devtoSeries?: string;
+  /** Whether this post is opted in for cross-posting to Hashnode */
+  hashnode: boolean;
+  /** When true, syncs to Hashnode as an unpublished draft instead of live */
+  hashnodeDraft: boolean;
 }
 
 export interface TaxonomyItem {
@@ -375,6 +379,9 @@ function parsePostFile(
       : typeof fm.series === 'string' && fm.series.trim()
         ? fm.series.trim()
         : undefined;
+  let rawHashnode: unknown = fm.hashnode ?? fm.publish_to_hashnode;
+  let rawHashnodeDraft: unknown =
+    fm.hashnode_draft ?? (fm.hashnode_published === false ? true : undefined);
   let tags: string[] = Array.isArray(fm.tags)
     ? fm.tags.map((t) => String(t).trim()).filter(Boolean)
     : typeof fm.tags === 'string'
@@ -428,6 +435,12 @@ function parsePostFile(
       if (/^(DevTo|DevIo|PublishToDevTo):\s*/i.test(trimmed)) {
         if (rawDevto === undefined) {
           rawDevto = trimmed.replace(/^(DevTo|DevIo|PublishToDevTo):\s*/i, '').trim();
+        }
+        continue;
+      }
+      if (/^(Hashnode|PublishToHashnode):\s*/i.test(trimmed)) {
+        if (rawHashnode === undefined) {
+          rawHashnode = trimmed.replace(/^(Hashnode|PublishToHashnode):\s*/i, '').trim();
         }
         continue;
       }
@@ -510,6 +523,20 @@ function parsePostFile(
       rawDevtoDraft.trim().toLowerCase() === 'true') ||
     normalizedDevtoStr === 'draft';
 
+  const normalizedHashnodeStr =
+    typeof rawHashnode === 'string' ? rawHashnode.trim().toLowerCase() : '';
+  const hashnode =
+    rawHashnode === true ||
+    normalizedHashnodeStr === 'true' ||
+    normalizedHashnodeStr === 'yes' ||
+    normalizedHashnodeStr === '1' ||
+    normalizedHashnodeStr === 'draft';
+  const hashnodeDraft =
+    rawHashnodeDraft === true ||
+    (typeof rawHashnodeDraft === 'string' &&
+      rawHashnodeDraft.trim().toLowerCase() === 'true') ||
+    normalizedHashnodeStr === 'draft';
+
   return {
     slug,
     title,
@@ -531,6 +558,8 @@ function parsePostFile(
     devto,
     devtoDraft,
     ...(devtoSeries ? { devtoSeries } : {}),
+    hashnode,
+    hashnodeDraft,
   };
 }
 

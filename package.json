@@ -17,7 +17,9 @@
     "generate-social-image": "npx tsx src/scripts/generate-social-image.ts",
     "generate-template": "npx tsx src/scripts/generate-template.ts",
     "publish:devto": "npx tsx src/scripts/publish-devto.ts",
-    "publish:devto:dry": "npx tsx src/scripts/publish-devto.ts --dry-run"
+    "publish:devto:dry": "npx tsx src/scripts/publish-devto.ts --dry-run",
+    "publish:hashnode": "npx tsx src/scripts/publish-hashnode.ts",
+    "publish:hashnode:dry": "npx tsx src/scripts/publish-hashnode.ts --dry-run"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",
