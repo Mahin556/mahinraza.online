@@ -18,7 +18,18 @@ const perPage = SITE_CONFIG.postsPerPage;
 const firstPagePosts = remainingPosts.slice(0, perPage);
 const totalPages = Math.max(1, Math.ceil(remainingPosts.length / perPage));
 
-const coreStack = ['AWS', 'Kubernetes', 'OpenTelemetry', 'Prometheus', 'Terraform', 'SRE'];
+const coreStack = [
+  'Cloud',
+  'Containerization',
+  'Container Orchestration',
+  'Infrastructure as Code (IaC)',
+  'Observability',
+  'Linux',
+  'Networking',
+  'Security',
+  'SRE',
+  'CI/CD',
+];
 ---
 
 <BaseLayout>
