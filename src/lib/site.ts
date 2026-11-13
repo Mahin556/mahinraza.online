@@ -1,6 +1,6 @@
 export const SITE_CONFIG = {
   siteUrl: 'https://blog.mahinraza.online',
-  title: 'DevOps, Cloud & Site Reliability Engineering Blog',
+  title: 'DevOps, Cloud & Site Reliability',
   subtitle: '- Blog by Mahin Raza',
   brandName: 'Mahin Raza',
   shortRole: 'DevOps & Cloud Engineer',
