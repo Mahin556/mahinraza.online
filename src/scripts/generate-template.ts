@@ -132,7 +132,7 @@ function generateTemplates() {
   dCtx.fillStyle = '#0f172a';
   dCtx.font = '700 56px "Poppins"';
   dCtx.textBaseline = 'top';
-  dCtx.fillText('Practical Engineering Guides on', 96, 245);
+  dCtx.fillText('Practical Engineering Blogs on', 96, 245);
   dCtx.fillText('AWS, Kubernetes, Observability', 96, 322);
   dCtx.fillStyle = '#0f766e';
   dCtx.fillText('& Site Reliability Engineering', 96, 399);

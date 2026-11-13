@@ -37,7 +37,7 @@ const coreStack = ['AWS', 'Kubernetes', 'OpenTelemetry', 'Prometheus', 'Terrafor
           <div class="inline-flex flex-wrap items-center gap-2">
             <span class="inline-flex items-center gap-1.5 rounded-md border border-teal-200 bg-teal-50/90 px-2.5 py-1 font-mono text-xs font-medium text-teal-800">
               <span class="h-1.5 w-1.5 rounded-full bg-teal-600" aria-hidden="true"></span>
-              <span>~/engineering-notes &middot; {allPosts.length} guides</span>
+              <span>~/engineering-notes &middot; {allPosts.length} blogs</span>
             </span>
           </div>
 
@@ -61,7 +61,7 @@ const coreStack = ['AWS', 'Kubernetes', 'OpenTelemetry', 'Prometheus', 'Terrafor
                 <svg class="h-4 w-4 shrink-0 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-                <span class="truncate">Search {allPosts.length} guides by topic, service, or error...</span>
+                <span class="truncate">Search {allPosts.length} blogs by topic, service, or error...</span>
               </span>
               <kbd class="hidden sm:inline-flex shrink-0 items-center rounded border border-slate-200 bg-slate-50 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-400">
                 ⌘K
@@ -174,7 +174,7 @@ const coreStack = ['AWS', 'Kubernetes', 'OpenTelemetry', 'Prometheus', 'Terrafor
   <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
     <!-- Featured Post -->
     {featuredPost && (
-      <section aria-label="Featured guide" class="mb-14">
+      <section aria-label="Featured blog" class="mb-14">
         <FeaturedPost post={featuredPost} />
       </section>
     )}
@@ -187,7 +187,7 @@ const coreStack = ['AWS', 'Kubernetes', 'OpenTelemetry', 'Prometheus', 'Terrafor
             // Archive
           </div>
           <h2 id="latest-articles-heading" class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">
-            Recent Engineering Guides
+            Recent Engineering Blogs
           </h2>
         </div>
         <a

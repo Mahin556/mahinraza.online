@@ -29,10 +29,10 @@ const accent = getTagAccent(tag.name);
 ---
 
 <BaseLayout
-  title={`Guides tagged #${tag.name}`}
-  description={`Read ${posts.length} DevOps and Cloud Engineering ${posts.length === 1 ? 'guide' : 'guides'} tagged with ${tag.name} by Mahin Raza.`}
+  title={`Blogs tagged #${tag.name}`}
+  description={`Read ${posts.length} DevOps and Cloud Engineering ${posts.length === 1 ? 'blog' : 'blogs'} tagged with ${tag.name} by Mahin Raza.`}
   breadcrumbs={[
-    { name: 'Guides', url: '/' },
+    { name: 'Blogs', url: '/' },
     { name: 'Topics', url: '/tags/' },
     { name: tag.name },
   ]}
@@ -52,12 +52,12 @@ const accent = getTagAccent(tag.name);
           <span>{tag.name}</span>
         </span>
         <span class="font-mono text-xs text-slate-500">
-          {posts.length} {posts.length === 1 ? 'guide' : 'guides'}
+          {posts.length} {posts.length === 1 ? 'blog' : 'blogs'}
         </span>
       </div>
 
       <h1 class="mt-4 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-        Guides tagged &ldquo;{tag.name}&rdquo;
+        Blogs tagged &ldquo;{tag.name}&rdquo;
       </h1>
     </div>
   </section>

@@ -26,9 +26,9 @@ const { category, posts } = Astro.props;
 
 <BaseLayout
   title={category.name}
-  description={category.description || `Engineering guides in ${category.name} by Mahin Raza.`}
+  description={category.description || `Engineering blogs in ${category.name} by Mahin Raza.`}
   breadcrumbs={[
-    { name: 'Guides', url: '/' },
+    { name: 'Blogs', url: '/' },
     { name: 'Categories', url: '/categories/' },
     { name: category.name },
   ]}
@@ -47,7 +47,7 @@ const { category, posts } = Astro.props;
           {category.name}
         </h1>
         <span class="inline-flex items-center rounded-md border border-teal-200 bg-teal-50 px-2.5 py-1 font-mono text-xs font-medium text-teal-800">
-          {posts.length} {posts.length === 1 ? 'guide' : 'guides'}
+          {posts.length} {posts.length === 1 ? 'blog' : 'blogs'}
         </span>
       </div>
 

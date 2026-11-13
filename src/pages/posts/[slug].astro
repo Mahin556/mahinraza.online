@@ -48,7 +48,7 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
   tags={post.tags}
   canonicalPath={`/posts/${post.slug}/`}
   breadcrumbs={[
-    { name: 'Guides', url: '/' },
+    { name: 'Blogs', url: '/' },
     { name: post.category, url: `/category/${post.categorySlug}/` },
     { name: post.title },
   ]}
@@ -62,7 +62,7 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
       <!-- Breadcrumb & Metadata -->
       <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-slate-400">
         <a href="/" class="text-slate-500 hover:text-teal-700 transition-colors">
-          ~/guides
+          ~/blogs
         </a>
         <span aria-hidden="true">/</span>
         <a
@@ -278,11 +278,11 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
               // Continue Reading
             </div>
             <h2 id="related-posts-heading" class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">
-              Related Engineering Guides
+              Related Engineering Blogs
             </h2>
           </div>
           <a href="/" class="text-xs sm:text-sm font-semibold text-teal-700 hover:text-teal-800">
-            All guides &rarr;
+            All blogs &rarr;
           </a>
         </div>
         <div class="grid grid-cols-1 gap-5 md:grid-cols-3">

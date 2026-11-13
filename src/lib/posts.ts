@@ -631,7 +631,7 @@ export function getAllCategories(): TaxonomyItem[] {
         name: post.category,
         slug: post.categorySlug,
         count: 1,
-        description: `Articles and guides in ${post.category}.`,
+        description: `Articles and blogs in ${post.category}.`,
       });
     }
   }

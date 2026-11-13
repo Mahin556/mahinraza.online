@@ -352,7 +352,7 @@
         }
 
         // 8. Title lines
-        const rawTitle = titleInput.value || 'Untitled Engineering Guide';
+        const rawTitle = titleInput.value || 'Untitled Engineering Blog';
         ctx.font = '700 ' + fontSize + 'px "Poppins", Inter, sans-serif';
         const lines = wrapText(ctx, rawTitle, 1088).slice(0, 4);
         const lineHeight = Math.round(fontSize * 1.37);
