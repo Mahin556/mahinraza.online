@@ -14,7 +14,7 @@ export const SITE_CONFIG = {
   author: {
     username: 'Mahin556',
     name: 'Mahin Raza',
-    bio: 'Sharing hands-on deep dives and field notes on DevOps, Cloud, Kubernetes, Infrastructure as Code, Observability, Security, and SRE.',
+    bio: 'I\'m a DevOps and Cloud Engineer who enjoys working with Linux, Kubernetes, and cloud technologies. I like building things, automating repetitive tasks, exploring new tools, and solving infrastructure problems. I also share my hands-on projects, experiments, and things I learn along the way.',
     avatarUrl: 'https://avatars.githubusercontent.com/Mahin556?s=160',
     githubUrl: 'https://github.com/Mahin556',
   },
