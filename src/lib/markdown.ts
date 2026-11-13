@@ -111,7 +111,7 @@ let highlighterPromise: Promise<Highlighter> | null = null;
 function getHighlighterInstance(): Promise<Highlighter> {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighter({
-      themes: ['dark-plus'],
+      themes: ['github-dark'],
       langs: [...SHIKI_SUPPORTED_LANGS],
     });
   }
@@ -195,7 +195,7 @@ export async function renderPostMarkdown(
 
       paragraph({ tokens }) {
         const innerHtml = this.parser.parseInline(tokens);
-        return `<p class="mt-5 mb-2 leading-8 text-gray-600 text-lg">${innerHtml}</p>\n`;
+        return `<p class="mt-5 mb-2 leading-8 text-slate-700 text-[17px]">${innerHtml}</p>\n`;
       },
 
       link({ href, title, tokens }) {
@@ -203,7 +203,7 @@ export async function renderPostMarkdown(
         const isExternal = href.startsWith('http://') || href.startsWith('https://');
         const targetAttrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
-        return `<a href="${escapeHtml(href)}"${titleAttr}${targetAttrs} class="font-semibold text-indigo-600 underline underline-offset-2 decoration-indigo-300 hover:decoration-indigo-500 hover:text-indigo-500 transition-colors">${innerHtml}</a>`;
+        return `<a href="${escapeHtml(href)}"${titleAttr}${targetAttrs} class="font-semibold text-teal-700 underline underline-offset-4 decoration-teal-300 hover:decoration-teal-600 hover:text-teal-800 transition-colors">${innerHtml}</a>`;
       },
 
       image({ href, title, text }) {
@@ -219,7 +219,7 @@ export async function renderPostMarkdown(
           resolvedSrc = `/post-assets/${postSlug}/${resolvedSrc.replace(/^\.\//, '')}`;
         }
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
-        return `<img src="${escapeHtml(resolvedSrc)}" alt="${escapeHtml(text || '')}"${titleAttr} loading="lazy" decoding="async" class="my-8 rounded-2xl border border-gray-200/80 max-w-full h-auto block" />`;
+        return `<img src="${escapeHtml(resolvedSrc)}" alt="${escapeHtml(text || '')}"${titleAttr} loading="lazy" decoding="async" class="my-8 rounded-xl border border-slate-200 max-w-full h-auto block bg-white" />`;
       },
 
       codespan({ text }) {
@@ -238,11 +238,11 @@ export async function renderPostMarkdown(
 
         let highlightedPre: string;
         if (effectiveLang === 'text') {
-          highlightedPre = `<pre class="shiki dark-plus" style="background-color:#1E1E1E;color:#D4D4D4" tabindex="0"><code>${escapeHtml(text)}</code></pre>`;
+          highlightedPre = `<pre class="shiki github-dark" style="background-color:#24292e;color:#e1e4e8" tabindex="0"><code>${escapeHtml(text)}</code></pre>`;
         } else {
           highlightedPre = highlighter.codeToHtml(text, {
             lang: effectiveLang,
-            theme: 'dark-plus',
+            theme: 'github-dark',
           });
         }
 

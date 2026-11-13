@@ -26,33 +26,33 @@ const { category, posts } = Astro.props;
 
 <BaseLayout
   title={category.name}
-  description={category.description || `Engineering articles in ${category.name} by Mahin Raza.`}
+  description={category.description || `Engineering guides in ${category.name} by Mahin Raza.`}
   breadcrumbs={[
-    { name: 'Articles', url: '/' },
+    { name: 'Guides', url: '/' },
     { name: 'Categories', url: '/categories/' },
     { name: category.name },
   ]}
 >
-  <section class="border-b border-gray-100 bg-white py-12 sm:py-16">
+  <section class="border-b border-slate-200/80 bg-white py-12 sm:py-14">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <a
         href="/categories/"
-        class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-500"
+        class="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-teal-700 hover:text-teal-800"
       >
-        <span>&larr; All categories</span>
+        <span>&larr; ~/categories</span>
       </a>
 
       <div class="mt-4 flex flex-wrap items-center gap-3">
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
+        <h1 class="font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
           {category.name}
         </h1>
-        <span class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-          {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+        <span class="inline-flex items-center rounded-md border border-teal-200 bg-teal-50 px-2.5 py-1 font-mono text-xs font-medium text-teal-800">
+          {posts.length} {posts.length === 1 ? 'guide' : 'guides'}
         </span>
       </div>
 
       {category.description && (
-        <p class="mt-3 max-w-2xl text-base sm:text-lg leading-7 text-gray-600">
+        <p class="mt-3 max-w-2xl text-base sm:text-lg leading-7 text-slate-600">
           {category.description}
         </p>
       )}
@@ -60,7 +60,7 @@ const { category, posts } = Astro.props;
   </section>
 
   <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post, idx) => (
         <PostCard post={post} index={idx} />
       ))}

@@ -29,41 +29,41 @@ const accent = getTagAccent(tag.name);
 ---
 
 <BaseLayout
-  title={`Posts tagged "${tag.name}"`}
-  description={`Read ${posts.length} DevOps and Cloud Engineering ${posts.length === 1 ? 'article' : 'articles'} tagged with ${tag.name} by Mahin Raza.`}
+  title={`Guides tagged #${tag.name}`}
+  description={`Read ${posts.length} DevOps and Cloud Engineering ${posts.length === 1 ? 'guide' : 'guides'} tagged with ${tag.name} by Mahin Raza.`}
   breadcrumbs={[
-    { name: 'Articles', url: '/' },
-    { name: 'Tags', url: '/tags/' },
+    { name: 'Guides', url: '/' },
+    { name: 'Topics', url: '/tags/' },
     { name: tag.name },
   ]}
 >
-  <section class="border-b border-gray-100 bg-white py-12 sm:py-16">
+  <section class="border-b border-slate-200/80 bg-white py-12 sm:py-14">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
       <a
         href="/tags/"
-        class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-500"
+        class="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-teal-700 hover:text-teal-800"
       >
-        <span>&larr; All tags</span>
+        <span>&larr; ~/topics</span>
       </a>
 
       <div class="mt-4 flex flex-wrap items-center gap-3">
-        <span class={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold ${accent.pill}`}>
-          <span class={`h-2 w-2 rounded-full ${accent.dot}`} aria-hidden="true"></span>
+        <span class={`inline-flex items-center rounded-md border px-3 py-1 font-mono text-xs font-semibold ${accent.pill}`}>
+          <span class="mr-0.5 opacity-60" aria-hidden="true">#</span>
           <span>{tag.name}</span>
         </span>
-        <span class="text-sm font-medium text-gray-500">
-          {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+        <span class="font-mono text-xs text-slate-500">
+          {posts.length} {posts.length === 1 ? 'guide' : 'guides'}
         </span>
       </div>
 
-      <h1 class="mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
-        Articles tagged &ldquo;{tag.name}&rdquo;
+      <h1 class="mt-4 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+        Guides tagged &ldquo;{tag.name}&rdquo;
       </h1>
     </div>
   </section>
 
   <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
       {posts.map((post, idx) => (
         <PostCard post={post} index={idx} />
       ))}

@@ -4,18 +4,18 @@
 <!-- Global Client-Side Search Modal -->
 <div
   id="search-modal"
-  class="fixed inset-0 z-50 hidden items-start justify-center bg-gray-900/40 backdrop-blur-sm px-4 pt-16 sm:pt-24"
+  class="fixed inset-0 z-50 hidden items-start justify-center bg-slate-900/50 backdrop-blur-sm px-4 pt-16 sm:pt-24"
   role="dialog"
   aria-modal="true"
   aria-labelledby="search-modal-label"
 >
   <div
-    class="w-full max-w-2xl overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl ring-1 ring-gray-900/5"
+    class="w-full max-w-2xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl ring-1 ring-slate-900/5"
     id="search-modal-panel"
   >
     <!-- Search Input Bar -->
-    <div class="flex items-center gap-3 border-b border-gray-100 px-4 py-3.5">
-      <svg class="h-5 w-5 shrink-0 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+    <div class="flex items-center gap-3 border-b border-slate-100 px-4 py-3.5">
+      <svg class="h-5 w-5 shrink-0 text-teal-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m1.85-5.15a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
       <label id="search-modal-label" for="search-modal-input" class="sr-only">
@@ -25,13 +25,13 @@
         id="search-modal-input"
         type="search"
         autocomplete="off"
-        placeholder="Search articles, Kubernetes, AWS, Prometheus, OpenTelemetry..."
-        class="w-full border-0 bg-transparent text-base text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-0"
+        placeholder="Search guides, Kubernetes, AWS, Prometheus, OpenTelemetry..."
+        class="w-full border-0 bg-transparent text-base text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-0"
       />
       <button
         type="button"
         id="search-modal-close"
-        class="rounded-lg border border-gray-200 bg-gray-50 px-2 py-1 text-xs font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+        class="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 font-mono text-[11px] font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
       >
         ESC
       </button>
@@ -39,18 +39,18 @@
 
     <!-- Results Container -->
     <div id="search-modal-results" class="max-h-[60vh] overflow-y-auto p-3">
-      <div class="py-10 text-center text-sm text-gray-500">
-        Type to search across all DevOps &amp; Cloud Engineering articles.
+      <div class="py-10 text-center text-sm text-slate-500">
+        Type to search across all DevOps &amp; Cloud Engineering guides.
       </div>
     </div>
 
     <!-- Footer Hint -->
-    <div class="flex items-center justify-between border-t border-gray-100 bg-gray-50/70 px-4 py-2.5 text-xs text-gray-500">
+    <div class="flex items-center justify-between border-t border-slate-100 bg-slate-50/80 px-4 py-2.5 text-xs text-slate-500">
       <div class="flex items-center gap-3">
-        <span><kbd class="rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">↑↓</kbd> Navigate</span>
-        <span><kbd class="rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">↵</kbd> Open</span>
+        <span><kbd class="rounded border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">↑↓</kbd> Navigate</span>
+        <span><kbd class="rounded border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[10px]">↵</kbd> Open</span>
       </div>
-      <span id="search-modal-count"></span>
+      <span id="search-modal-count" class="font-mono text-[11px]"></span>
     </div>
   </div>
 </div>
@@ -148,14 +148,14 @@
 
     function renderResults(rawQuery) {
       if (!searchIndex) {
-        resultsEl.innerHTML = '<div class="py-10 text-center text-sm text-gray-500">Loading search index...</div>';
+        resultsEl.innerHTML = '<div class="py-10 text-center text-sm text-slate-500">Loading search index...</div>';
         return;
       }
 
       const query = (rawQuery || '').trim().toLowerCase();
       if (!query) {
         currentMatches = searchIndex.slice(0, 8);
-        if (countEl) countEl.textContent = searchIndex.length + ' total articles';
+        if (countEl) countEl.textContent = searchIndex.length + ' total guides';
       } else {
         const terms = query.split(/\s+/).filter(Boolean);
         currentMatches = searchIndex
@@ -177,7 +177,7 @@
 
       if (currentMatches.length === 0) {
         resultsEl.innerHTML =
-          '<div class="py-10 text-center text-sm text-gray-500">No articles found matching <strong class="text-gray-900">"' +
+          '<div class="py-10 text-center text-sm text-slate-500">No guides found matching <strong class="text-slate-900">"' +
           escapeHtml(rawQuery) +
           '"</strong>.</div>';
         return;
@@ -185,7 +185,7 @@
 
       const headingLabel = query
         ? ''
-        : '<div class="px-3 pt-1 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">Latest Articles</div>';
+        : '<div class="px-3 pt-1 pb-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">// Recent Guides</div>';
 
       resultsEl.innerHTML =
         headingLabel +
@@ -193,13 +193,13 @@
           .map((item, idx) => {
             const activeClass =
               idx === activeIdx
-                ? 'bg-blue-50/80 border-blue-200'
-                : 'bg-white border-transparent hover:bg-gray-50';
+                ? 'bg-teal-50/70 border-teal-200'
+                : 'bg-white border-transparent hover:bg-slate-50';
             const tagBadges = item.tags
               .slice(0, 3)
               .map(
                 (t) =>
-                  '<span class="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 text-[11px] font-medium text-gray-600">' +
+                  '<span class="inline-flex items-center rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[10px] font-medium text-slate-600">#' +
                   escapeHtml(t) +
                   '</span>'
               )
@@ -210,23 +210,23 @@
               encodeURIComponent(item.slug) +
               '/" data-search-result-idx="' +
               idx +
-              '" class="block rounded-xl border p-3.5 transition-colors ' +
+              '" class="block rounded-lg border p-3.5 transition-colors ' +
               activeClass +
               '">' +
-              '<div class="flex items-center justify-between gap-2 text-xs text-gray-500 mb-1">' +
-              '<span class="font-medium text-blue-600">' +
+              '<div class="flex items-center justify-between gap-2 text-xs text-slate-500 mb-1">' +
+              '<span class="font-medium text-teal-700">' +
               escapeHtml(item.category) +
               '</span>' +
-              '<span>' +
+              '<span class="font-mono text-[11px] text-slate-400">' +
               escapeHtml(item.formattedDate) +
               ' &middot; ' +
               escapeHtml(item.readingTimeText) +
               '</span>' +
               '</div>' +
-              '<div class="text-sm font-semibold text-gray-900">' +
+              '<div class="text-sm font-semibold text-slate-900">' +
               escapeHtml(item.title) +
               '</div>' +
-              '<p class="mt-1 line-clamp-1 text-xs text-gray-600">' +
+              '<p class="mt-1 line-clamp-1 text-xs text-slate-600">' +
               escapeHtml(item.description) +
               '</p>' +
               '<div class="mt-2 flex flex-wrap gap-1.5">' +
@@ -242,11 +242,11 @@
       const links = resultsEl.querySelectorAll('[data-search-result-idx]');
       links.forEach((el, idx) => {
         if (idx === activeIdx) {
-          el.classList.add('bg-blue-50/80', 'border-blue-200');
+          el.classList.add('bg-teal-50/70', 'border-teal-200');
           el.classList.remove('bg-white', 'border-transparent');
           el.scrollIntoView({ block: 'nearest' });
         } else {
-          el.classList.remove('bg-blue-50/80', 'border-blue-200');
+          el.classList.remove('bg-teal-50/70', 'border-teal-200');
           el.classList.add('bg-white', 'border-transparent');
         }
       });

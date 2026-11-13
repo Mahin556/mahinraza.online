@@ -48,7 +48,7 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
   tags={post.tags}
   canonicalPath={`/posts/${post.slug}/`}
   breadcrumbs={[
-    { name: 'Articles', url: '/' },
+    { name: 'Guides', url: '/' },
     { name: post.category, url: `/category/${post.categorySlug}/` },
     { name: post.title },
   ]}
@@ -57,34 +57,43 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
   <div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
 
   <!-- Article Hero -->
-  <header class="border-b border-gray-100 bg-white pt-10 pb-10 sm:pt-14 sm:pb-12">
-    <div class="mx-auto max-w-4xl px-6 lg:px-8">
-      <!-- Breadcrumb & Category -->
-      <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-        <a href="/" class="font-medium text-gray-500 hover:text-blue-600 transition-colors">
-          Articles
+  <header class="border-b border-slate-200/80 bg-white pt-10 pb-10 sm:pt-12 sm:pb-12">
+    <div class="mx-auto max-w-5xl px-6 lg:px-8">
+      <!-- Breadcrumb & Metadata -->
+      <div class="flex flex-wrap items-center gap-2 font-mono text-xs text-slate-400">
+        <a href="/" class="text-slate-500 hover:text-teal-700 transition-colors">
+          ~/guides
         </a>
         <span aria-hidden="true">/</span>
         <a
           href={`/category/${post.categorySlug}/`}
-          class="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-0.5 font-semibold text-blue-700 hover:bg-blue-100 transition-colors"
+          class="font-medium text-teal-700 hover:text-teal-800 transition-colors"
         >
-          {post.category}
+          {post.categorySlug}
         </a>
+        <span class="hidden sm:inline text-slate-300" aria-hidden="true">&middot;</span>
+        <span class="hidden sm:inline text-slate-500">
+          <time datetime={post.dateISO}>{post.formattedDate}</time> &middot; {post.readingTimeText}
+        </span>
       </div>
 
       <!-- Title -->
-      <h1 class="mt-5 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 leading-tight">
+      <h1 class="mt-4 max-w-4xl font-display text-3xl sm:text-4xl md:text-[42px] font-extrabold tracking-tight text-slate-900 leading-[1.18]">
         {post.title}
       </h1>
 
       <!-- Summary -->
-      <p class="mt-5 text-lg sm:text-xl leading-relaxed text-gray-600">
+      <p class="mt-4 max-w-3xl text-base sm:text-lg leading-relaxed text-slate-600">
         {post.description}
       </p>
 
-      <!-- Author, Date & Reading Time -->
-      <div class="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-gray-100 pt-6">
+      <!-- Tags -->
+      <div class="mt-5">
+        <TagPills tags={post.tags} size="sm" />
+      </div>
+
+      <!-- Author & Share Bar -->
+      <div class="mt-7 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-5">
         <a
           href={post.author.githubUrl}
           target="_blank"
@@ -94,45 +103,36 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
           <img
             src={post.author.avatarUrl}
             alt={post.author.name}
-            width="40"
-            height="40"
+            width="38"
+            height="38"
             loading="eager"
             decoding="async"
-            class="h-10 w-10 rounded-full bg-gray-100 ring-1 ring-gray-200 object-cover"
+            class="h-9 w-9 rounded-lg bg-slate-100 ring-1 ring-slate-200 object-cover"
           />
           <div>
-            <div class="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+            <div class="text-sm font-semibold text-slate-900 group-hover:text-teal-700 transition-colors">
               {post.author.name}
             </div>
-            <div class="text-xs text-gray-500">
-              <time datetime={post.dateISO}>{post.formattedDate}</time>
-              <span class="mx-1.5" aria-hidden="true">&middot;</span>
-              <span>{post.readingTimeText}</span>
+            <div class="font-mono text-[11px] text-slate-500 sm:hidden">
+              <time datetime={post.dateISO}>{post.formattedDate}</time> &middot; {post.readingTimeText}
+            </div>
+            <div class="hidden sm:block font-mono text-[11px] text-slate-500">
+              @{post.author.username} &middot; {SITE_CONFIG.shortRole}
             </div>
           </div>
         </a>
 
-        <!-- Tags -->
-        <TagPills tags={post.tags} size="sm" />
-      </div>
-    </div>
-  </header>
-
-  <!-- Article Body + Desktop TOC -->
-  <div class="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:px-8">
-    <div class="mx-auto flex max-w-5xl items-start justify-center gap-12">
-      <!-- Center Article Column -->
-      <div class="relative min-w-0 max-w-3xl flex-1">
-        <!-- Floating Social Share Rail (Desktop >= 1280px) -->
-        <div class="floating-share" aria-label="Share article">
+        <!-- Compact Header Share Controls -->
+        <div class="flex items-center gap-1.5">
           <a
             href={twitterShareUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Share on X (Twitter)"
+            aria-label="Share on X"
             title="Share on X"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:border-teal-300 hover:bg-white hover:text-teal-700 transition-colors"
           >
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
             </svg>
           </a>
@@ -142,33 +142,32 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
             rel="noopener noreferrer"
             aria-label="Share on LinkedIn"
             title="Share on LinkedIn"
+            class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:border-teal-300 hover:bg-white hover:text-teal-700 transition-colors"
           >
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
             </svg>
-          </a>
-          <a
-            href={hnShareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Share on Hacker News"
-            title="Share on Hacker News"
-          >
-            <span class="font-bold text-xs leading-none">Y</span>
           </a>
           <button
             type="button"
             data-copy-post-link={canonicalPostUrl}
-            class="copy-link-btn"
-            aria-label="Copy article link"
-            title="Copy link"
+            class="copy-link-btn inline-flex h-8 items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 font-mono text-[11px] font-medium text-slate-600 hover:border-teal-300 hover:bg-white hover:text-teal-700 transition-colors"
           >
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
+            <span data-copy-label>Copy URL</span>
           </button>
         </div>
+      </div>
+    </div>
+  </header>
 
+  <!-- Article Body + Desktop TOC -->
+  <div class="mx-auto max-w-7xl px-6 py-10 sm:py-12 lg:px-8">
+    <div class="mx-auto flex max-w-5xl items-start justify-between gap-12">
+      <!-- Main Article Column -->
+      <div class="min-w-0 max-w-3xl flex-1 rounded-xl border border-slate-200/80 bg-white p-6 sm:p-10 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
         <!-- Mobile / Tablet Collapsible TOC -->
         <TableOfContents items={toc} variant="mobile" />
 
@@ -176,39 +175,39 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
         <article id="article-body" class="blog-body" set:html={html} />
 
         <!-- Bottom Share & Edit Strip -->
-        <div class="mt-12 flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-gray-50/60 p-5">
+        <div class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-6">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-gray-500 mr-1">
+            <span class="font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400 mr-1">
               Share:
             </span>
             <a
               href={twitterShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-blue-300 hover:text-blue-600 transition-colors"
+              class="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-teal-300 hover:bg-white hover:text-teal-700 transition-colors"
             >
-              <span>X / Twitter</span>
+              X / Twitter
             </a>
             <a
               href={linkedinShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-blue-300 hover:text-blue-600 transition-colors"
+              class="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-teal-300 hover:bg-white hover:text-teal-700 transition-colors"
             >
-              <span>LinkedIn</span>
+              LinkedIn
             </a>
             <a
               href={hnShareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-orange-300 hover:text-orange-600 transition-colors"
+              class="inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-amber-300 hover:bg-white hover:text-amber-700 transition-colors"
             >
-              <span>Hacker News</span>
+              Hacker News
             </a>
             <button
               type="button"
               data-copy-post-link={canonicalPostUrl}
-              class="copy-link-btn inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:border-blue-300 hover:text-blue-600 transition-colors"
+              class="copy-link-btn inline-flex items-center rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700 hover:border-teal-300 hover:bg-white hover:text-teal-700 transition-colors"
             >
               <span data-copy-label>Copy link</span>
             </button>
@@ -218,34 +217,34 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
             href={post.githubEditUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-blue-600 transition-colors"
+            class="inline-flex items-center gap-1.5 font-mono text-xs font-medium text-slate-500 hover:text-teal-700 transition-colors"
           >
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
-            <span>Edit on GitHub</span>
+            <span>Source on GitHub</span>
           </a>
         </div>
 
         <!-- Author Bio Card -->
-        <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm ring-1 ring-gray-100">
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="mt-8 rounded-xl border border-slate-200 bg-slate-50/70 p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <img
               src={post.author.avatarUrl}
               alt={post.author.name}
-              width="64"
-              height="64"
+              width="56"
+              height="56"
               loading="lazy"
               decoding="async"
-              class="h-16 w-16 rounded-full bg-gray-100 ring-2 ring-gray-100 object-cover"
+              class="h-14 w-14 rounded-lg bg-white ring-1 ring-slate-200 object-cover"
             />
             <div class="flex-1">
               <div class="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <span class="text-xs font-semibold uppercase tracking-wider text-blue-600">
-                    Written by
+                  <span class="font-mono text-[11px] font-semibold uppercase tracking-wider text-teal-700">
+                    // Author
                   </span>
-                  <h2 class="text-lg font-bold text-gray-900">
+                  <h2 class="font-display text-base font-bold text-slate-900">
                     {post.author.name}
                   </h2>
                 </div>
@@ -253,12 +252,12 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
                   href={post.author.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-gray-50 px-3.5 py-1.5 text-xs font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                  class="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-mono text-xs font-medium text-slate-700 hover:border-teal-300 hover:text-teal-700 transition-colors"
                 >
-                  <span>Follow @{post.author.username}</span>
+                  <span>@{post.author.username}</span>
                 </a>
               </div>
-              <p class="mt-2 text-sm leading-6 text-gray-600">
+              <p class="mt-2 text-sm leading-6 text-slate-600">
                 {post.author.bio}
               </p>
             </div>
@@ -272,16 +271,21 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
 
     <!-- Related Posts -->
     {relatedPosts.length > 0 && (
-      <section aria-labelledby="related-posts-heading" class="mt-20 border-t border-gray-100 pt-14">
-        <div class="flex items-center justify-between gap-4 mb-8">
-          <h2 id="related-posts-heading" class="text-2xl font-bold tracking-tight text-gray-900">
-            Related Engineering Guides
-          </h2>
-          <a href="/" class="text-sm font-semibold text-blue-600 hover:text-blue-500">
-            All articles &rarr;
+      <section aria-labelledby="related-posts-heading" class="mx-auto max-w-5xl mt-16 border-t border-slate-200 pt-12">
+        <div class="flex items-end justify-between gap-4 mb-6">
+          <div>
+            <div class="font-mono text-xs font-semibold uppercase tracking-wider text-teal-700">
+              // Continue Reading
+            </div>
+            <h2 id="related-posts-heading" class="mt-1 font-display text-2xl font-bold tracking-tight text-slate-900">
+              Related Engineering Guides
+            </h2>
+          </div>
+          <a href="/" class="text-xs sm:text-sm font-semibold text-teal-700 hover:text-teal-800">
+            All guides &rarr;
           </a>
         </div>
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
           {relatedPosts.map((relPost, idx) => (
             <PostCard post={relPost} index={idx} />
           ))}
@@ -395,13 +399,14 @@ const hnShareUrl = `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${
         btn.addEventListener('click', async function () {
           const url = btn.getAttribute('data-copy-post-link') || window.location.href;
           const label = btn.querySelector('[data-copy-label]');
+          const prevText = label ? label.textContent : 'Copy link';
           try {
             await navigator.clipboard.writeText(url);
             btn.classList.add('copied');
             if (label) label.textContent = 'Copied!';
             setTimeout(() => {
               btn.classList.remove('copied');
-              if (label) label.textContent = 'Copy link';
+              if (label) label.textContent = prevText;
             }, 2000);
           } catch {
             btn.classList.add('copy-failed');

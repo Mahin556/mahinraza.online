@@ -9,8 +9,7 @@ export default {
     extend: {
       fontFamily: {
         sans: [
-          'Geist',
-          '"Geist Fallback"',
+          '"Plus Jakarta Sans"',
           'Inter',
           'ui-sans-serif',
           'system-ui',
@@ -23,14 +22,14 @@ export default {
           'sans-serif',
         ],
         display: [
-          'Geist',
-          '"Geist Fallback"',
+          '"Plus Jakarta Sans"',
           'Inter',
           'ui-sans-serif',
           'system-ui',
           'sans-serif',
         ],
         mono: [
+          '"JetBrains Mono"',
           '"SF Mono"',
           'Monaco',
           'Inconsolata',

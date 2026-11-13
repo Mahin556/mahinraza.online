@@ -26,13 +26,13 @@ if (fs.existsSync(SCRIPT_DIR_FONTS)) {
 }
 
 const TITLE_CONFIG = {
-  x: 75,
-  y: 260,
-  maxWidth: 1130,
-  lineHeight: 82,
-  fontSize: 64,
+  x: 96,
+  y: 232,
+  maxWidth: 1088,
+  lineHeight: 74,
+  fontSize: 54,
   fontFamily: FONT_FAMILY,
-  color: '#000000',
+  color: '#0f172a',
 };
 
 function extractTitle(mdPath: string): string {
@@ -95,11 +95,6 @@ async function generateSocialImage(blogFolderPath: string): Promise<void> {
   lines.forEach((line, index) => {
     ctx.fillText(line, TITLE_CONFIG.x, TITLE_CONFIG.y + index * TITLE_CONFIG.lineHeight);
   });
-
-  // Footer domain watermark
-  ctx.fillStyle = '#6b7280';
-  ctx.font = `700 24px "${TITLE_CONFIG.fontFamily}"`;
-  ctx.fillText('blog.mahinraza.online', TITLE_CONFIG.x, 635);
 
   const outputPath = path.join(absolutePath, 'social-media.png');
   fs.writeFileSync(outputPath, canvas.toBuffer('image/png'));

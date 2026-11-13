@@ -113,7 +113,7 @@ const breadcrumbSchema =
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light only" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#0f766e" />
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -130,12 +130,12 @@ const breadcrumbSchema =
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <!-- Fonts: Geist (400-800) -->
+    <!-- Fonts: Plus Jakarta Sans, Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://avatars.githubusercontent.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,400..800;1,400..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
 
@@ -167,10 +167,10 @@ const breadcrumbSchema =
       <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     )}
   </head>
-  <body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+  <body class="min-h-screen flex flex-col bg-[#f8fafc] text-slate-900 antialiased selection:bg-teal-100 selection:text-teal-950">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-blue-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-teal-700 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
     >
       Skip to main content
     </a>

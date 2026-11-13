@@ -6,61 +6,68 @@ const topCategories = getAllCategories().slice(0, 6);
 const currentYear = new Date().getUTCFullYear();
 ---
 
-<footer class="site-footer mt-20 border-t border-gray-200 bg-white">
+<footer class="site-footer mt-20 border-t border-slate-800 bg-slate-900 text-slate-300">
   <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
     <div class="grid grid-cols-1 gap-10 md:grid-cols-12">
       <!-- Brand & Bio -->
       <div class="md:col-span-5">
-        <a href="/" class="inline-flex items-center gap-3">
-          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-900 text-white font-bold text-sm tracking-tight">
-            MR
+        <a href="/" class="inline-flex items-center gap-2.5">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-600 font-mono text-xs font-semibold text-white" aria-hidden="true">
+            &gt;_
           </span>
-          <span class="text-lg font-bold tracking-tight text-gray-900">
+          <span class="font-display text-lg font-bold tracking-tight text-white">
             {SITE_CONFIG.brandName}
           </span>
+          <span class="rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[11px] text-teal-400 border border-slate-700">
+            ~/blog
+          </span>
         </a>
-        <p class="mt-4 max-w-md text-sm leading-6 text-gray-600">
+        <p class="mt-4 max-w-md text-sm leading-6 text-slate-400">
           {SITE_CONFIG.description}
         </p>
-        <div class="mt-5 flex items-center gap-4">
+        <div class="mt-5 flex flex-wrap items-center gap-4 text-xs font-medium">
+          <a
+            href={SITE_CONFIG.portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 transition-colors"
+          >
+            <span>mahinraza.online</span>
+            <span aria-hidden="true">&nearr;</span>
+          </a>
+          <span class="text-slate-700" aria-hidden="true">/</span>
           <a
             href={SITE_CONFIG.githubProfileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+            class="inline-flex items-center gap-1.5 text-slate-300 hover:text-white transition-colors"
           >
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-            </svg>
-            <span>GitHub</span>
+            <span>GitHub (@{SITE_CONFIG.author.username})</span>
           </a>
-          <span class="text-gray-300" aria-hidden="true">·</span>
+          <span class="text-slate-700" aria-hidden="true">/</span>
           <a
             href="/rss.xml"
-            class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-orange-600 transition-colors"
+            class="inline-flex items-center gap-1.5 text-slate-300 hover:text-amber-400 transition-colors"
           >
-            <svg class="h-4 w-4 text-orange-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z" />
-            </svg>
-            <span>RSS Feed</span>
+            <span>RSS</span>
           </a>
         </div>
       </div>
 
       <!-- Categories -->
       <div class="md:col-span-4">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-900">
-          Categories
+        <h3 class="font-mono text-xs font-semibold uppercase tracking-wider text-teal-400">
+          // Tracks
         </h3>
         <ul class="mt-4 space-y-2.5">
           {topCategories.map((cat) => (
             <li>
               <a
                 href={`/category/${cat.slug}/`}
-                class="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+                class="text-sm text-slate-400 hover:text-white transition-colors"
               >
                 {cat.name}
-                <span class="ml-1 text-xs text-gray-400">({cat.count})</span>
+                <span class="ml-1 font-mono text-xs text-slate-500">[{cat.count}]</span>
               </a>
             </li>
           ))}
@@ -69,28 +76,28 @@ const currentYear = new Date().getUTCFullYear();
 
       <!-- Navigation -->
       <div class="md:col-span-3">
-        <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-900">
-          Explore
+        <h3 class="font-mono text-xs font-semibold uppercase tracking-wider text-teal-400">
+          // Directory
         </h3>
         <ul class="mt-4 space-y-2.5">
           <li>
-            <a href="/" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-              All Articles
+            <a href="/" class="text-sm text-slate-400 hover:text-white transition-colors">
+              All Engineering Guides
             </a>
           </li>
           <li>
-            <a href="/categories/" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-              Browse Categories
+            <a href="/categories/" class="text-sm text-slate-400 hover:text-white transition-colors">
+              Categories
             </a>
           </li>
           <li>
-            <a href="/tags/" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-              Browse Tags
+            <a href="/tags/" class="text-sm text-slate-400 hover:text-white transition-colors">
+              Topic Index
             </a>
           </li>
           <li>
-            <a href="/rss.xml" class="text-sm text-gray-600 hover:text-blue-600 transition-colors">
-              RSS Feed
+            <a href="/rss.xml" class="text-sm text-slate-400 hover:text-white transition-colors">
+              RSS Syndication
             </a>
           </li>
           <li>
@@ -98,7 +105,7 @@ const currentYear = new Date().getUTCFullYear();
               href={SITE_CONFIG.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              class="text-sm text-gray-600 hover:text-blue-600 transition-colors"
+              class="text-sm text-slate-400 hover:text-white transition-colors"
             >
               Source Repository
             </a>
@@ -107,12 +114,20 @@ const currentYear = new Date().getUTCFullYear();
       </div>
     </div>
 
-    <div class="mt-12 border-t border-gray-100 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-xs text-gray-500">
-        &copy; {currentYear} {SITE_CONFIG.brandName}. All rights reserved.
+    <div class="mt-12 border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-slate-500">
+        &copy; {currentYear} {SITE_CONFIG.brandName}. Content published under{' '}
+        <a
+          href={`${SITE_CONFIG.repoUrl}/blob/main/LICENSE`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline decoration-slate-700 hover:text-slate-300"
+        >
+          CC BY 4.0
+        </a>.
       </p>
-      <p class="text-xs text-gray-400">
-        blog.mahinraza.online &middot; DevOps &amp; Cloud Engineering
+      <p class="font-mono text-xs text-slate-500">
+        blog.mahinraza.online &middot; {SITE_CONFIG.shortRole}
       </p>
     </div>
   </div>
