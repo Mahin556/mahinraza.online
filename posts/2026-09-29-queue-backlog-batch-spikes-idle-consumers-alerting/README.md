@@ -6,6 +6,8 @@ Tags: Monitoring, Queue, Prometheus, SQS
 
 Description: Alert on queue age, deadlines and stalled progress while distinguishing normal batch accumulation from idle or failed consumers.
 
+DevTo: true
+
 A queue of 100,000 items can be healthy immediately after a scheduled import. A queue of 20 items can be an incident when each item has a two-minute delivery deadline. Queue depth is useful context, but the alert should explain whether waiting work can still complete on time.
 
 Start by identifying the service promise: maximum waiting age, completion deadline, throughput target or retention limit. Then pair backlog with progress and consumer capacity. A depth threshold without that contract tends to page every batch and miss slow small queues.

@@ -30,6 +30,12 @@ export interface BlogPost {
   sourcePath: string;
   githubEditUrl: string;
   isDirectoryPost: boolean;
+  /** Whether this post is opted in for cross-posting to DEV Community (dev.to) */
+  devto: boolean;
+  /** When true, syncs to DEV Community as an unpublished draft instead of live */
+  devtoDraft: boolean;
+  /** Optional DEV Community series name */
+  devtoSeries?: string;
 }
 
 export interface TaxonomyItem {
@@ -360,6 +366,15 @@ function parsePostFile(
   let description = typeof fm.description === 'string' ? fm.description.trim() : '';
   let rawAuthor = typeof fm.author === 'string' ? fm.author.trim() : '';
   let rawCategory = typeof fm.category === 'string' ? fm.category.trim() : '';
+  let rawDevto: unknown = fm.devto ?? fm.devio ?? fm.publish_to_devto;
+  let rawDevtoDraft: unknown =
+    fm.devto_draft ?? (fm.devto_published === false ? true : undefined);
+  let devtoSeries =
+    typeof fm.devto_series === 'string' && fm.devto_series.trim()
+      ? fm.devto_series.trim()
+      : typeof fm.series === 'string' && fm.series.trim()
+        ? fm.series.trim()
+        : undefined;
   let tags: string[] = Array.isArray(fm.tags)
     ? fm.tags.map((t) => String(t).trim()).filter(Boolean)
     : typeof fm.tags === 'string'
@@ -407,6 +422,12 @@ function parsePostFile(
       if (/^Description:\s*/i.test(trimmed)) {
         if (!description) {
           description = trimmed.replace(/^Description:\s*/i, '').trim();
+        }
+        continue;
+      }
+      if (/^(DevTo|DevIo|PublishToDevTo):\s*/i.test(trimmed)) {
+        if (rawDevto === undefined) {
+          rawDevto = trimmed.replace(/^(DevTo|DevIo|PublishToDevTo):\s*/i, '').trim();
         }
         continue;
       }
@@ -475,6 +496,20 @@ function parsePostFile(
 
   const relSourcePath = path.relative(ROOT_DIR, filePath).replace(/\\/g, '/');
 
+  const normalizedDevtoStr =
+    typeof rawDevto === 'string' ? rawDevto.trim().toLowerCase() : '';
+  const devto =
+    rawDevto === true ||
+    normalizedDevtoStr === 'true' ||
+    normalizedDevtoStr === 'yes' ||
+    normalizedDevtoStr === '1' ||
+    normalizedDevtoStr === 'draft';
+  const devtoDraft =
+    rawDevtoDraft === true ||
+    (typeof rawDevtoDraft === 'string' &&
+      rawDevtoDraft.trim().toLowerCase() === 'true') ||
+    normalizedDevtoStr === 'draft';
+
   return {
     slug,
     title,
@@ -493,6 +528,9 @@ function parsePostFile(
     sourcePath: relSourcePath,
     githubEditUrl: `${SITE_CONFIG.repoUrl}/blob/main/${relSourcePath}`,
     isDirectoryPost,
+    devto,
+    devtoDraft,
+    ...(devtoSeries ? { devtoSeries } : {}),
   };
 }
 

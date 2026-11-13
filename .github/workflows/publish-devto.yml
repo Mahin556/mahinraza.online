@@ -1,0 +1,76 @@
+name: Publish Opted-In Posts to DEV (dev.to)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'posts/**'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview opted-in posts without publishing to dev.to'
+        required: false
+        default: false
+        type: boolean
+      post_path:
+        description: 'Optional single post path or slug (e.g. posts/2026-11-13-my-post.md)'
+        required: false
+        default: ''
+        type: string
+
+concurrency:
+  group: publish-devto
+  cancel-in-progress: false
+
+jobs:
+  sync-devto:
+    name: Sync Opted-In Articles to dev.to
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Sync opted-in posts to DEV Community
+        env:
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          INPUT_DRY_RUN: ${{ inputs.dry_run }}
+          INPUT_POST_PATH: ${{ inputs.post_path }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          ARGS=()
+          if [ -n "$INPUT_POST_PATH" ]; then
+            ARGS+=("$INPUT_POST_PATH")
+          fi
+
+          if [ "$INPUT_DRY_RUN" = "true" ]; then
+            ARGS+=("--dry-run")
+            npx tsx src/scripts/publish-devto.ts "${ARGS[@]}"
+            exit 0
+          fi
+
+          if [ -z "$DEVTO_API_KEY" ]; then
+            echo "::notice::DEVTO_API_KEY secret is not configured in GitHub Settings -> Secrets -> Actions. Running in preview (--dry-run) mode."
+            ARGS+=("--dry-run")
+            npx tsx src/scripts/publish-devto.ts "${ARGS[@]}"
+            exit 0
+          fi
+
+          # Brief wait on push so Cloudflare Pages finishes deploying cover/post images before dev.to fetches them
+          if [ "$EVENT_NAME" = "push" ]; then
+            echo "Waiting 60s for Cloudflare Pages deployment so cover images are live..."
+            sleep 60
+          fi
+
+          npx tsx src/scripts/publish-devto.ts "${ARGS[@]}"

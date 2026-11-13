@@ -15,7 +15,9 @@
     "sync-assets": "node src/scripts/sync-post-assets.mjs",
     "validate": "npx tsx src/scripts/validate-blogs.ts",
     "generate-social-image": "npx tsx src/scripts/generate-social-image.ts",
-    "generate-template": "npx tsx src/scripts/generate-template.ts"
+    "generate-template": "npx tsx src/scripts/generate-template.ts",
+    "publish:devto": "npx tsx src/scripts/publish-devto.ts",
+    "publish:devto:dry": "npx tsx src/scripts/publish-devto.ts --dry-run"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.11",

@@ -23,6 +23,7 @@ tags:
   - EKS
   - Autoscaling
   - Prometheus
+devto: true # Set true to cross-post to dev.to, false (or omit) to keep blog-only
 ---
 
 Write your Markdown content here using `##` and `###` headings.
@@ -58,6 +59,31 @@ Reference co-located images with standard relative Markdown paths:
 | `category` | Optional | Explicit category name; automatically inferred from `tags` if omitted. |
 | `draft` | Optional | Set `draft: true` to exclude a work-in-progress post from builds. |
 | `image` | Optional | Custom OpenGraph social card path or URL (defaults to `social-media.png` if present, otherwise `/og-default.png`). |
+| `devto` | Optional | Controls DEV Community (`dev.to`) publishing: `true` = publish live, `draft` = save as draft on DEV, `false` / omitted = **do not** publish to DEV. |
+| `devto_series` | Optional | Optional series name when cross-posting to DEV Community. |
+
+---
+
+## Cross-Posting to DEV Community (`dev.to`)
+
+Every post stays **exclusively on `blog.mahinraza.online` by default**. Only posts where you explicitly opt in are synced to DEV:
+
+- **Publish live to DEV:** `devto: true` (or `DevTo: true` in inline-header posts)
+- **Save as an unpublished draft on DEV:** `devto: draft`
+- **Do NOT publish to DEV:** `devto: false` (or simply omit `devto`)
+
+When cross-posted, the script automatically:
+1. Sets `canonical_url` to `https://blog.mahinraza.online/posts/<slug>/` so your blog keeps 100% of search engine SEO credit.
+2. Attaches your post's OpenGraph cover image (`main_image`) and rewrites relative Markdown images/links to absolute URLs.
+3. Sanitizes tags to DEV's 4-tag alphanumeric rule and updates existing DEV posts in place on future edits without creating duplicates.
+
+### One-Time GitHub Setup (Automatic on `git push`)
+
+1. Open [DEV Community Settings → Extensions](https://dev.to/settings/extensions), scroll to **DEV Community API Keys**, enter a description (e.g. `blog-sync`), and click **Generate API Key**.
+2. In your GitHub repository (`Mahin556/mahinraza.online`), go to **Settings → Secrets and variables → Actions → New repository secret**:
+   - **Name:** `DEVTO_API_KEY`
+   - **Secret:** *(paste your DEV API key)*
+3. Push any post with `devto: true` to `main`/`master` — [`.github/workflows/publish-devto.yml`](./.github/workflows/publish-devto.yml) will automatically publish or update it on DEV.
 
 ---
 
@@ -77,6 +103,12 @@ npm run validate
 
 # Optional: Generate branded OpenGraph social cards for folder posts
 npm run generate-social-image
+
+# Preview which posts are opted-in for DEV Community (dev.to)
+npm run publish:devto:dry
+
+# Publish/update opted-in posts on DEV Community (requires DEVTO_API_KEY in .env)
+npm run publish:devto
 
 # Build production static site into ./dist
 npm run build
