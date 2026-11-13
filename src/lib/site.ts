@@ -1,11 +1,11 @@
 export const SITE_CONFIG = {
   siteUrl: 'https://blog.mahinraza.online',
-  title: 'Engineering Cloud & DevOps',
+  title: 'DevOps, Cloud & Site Reliability Engineering Blog',
   subtitle: '- Blog by Mahin Raza',
   brandName: 'Mahin Raza',
-  shortRole: 'DevOps & Cloud Engineering',
+  shortRole: 'DevOps & Cloud Engineer',
   description:
-    'Practical engineering blogs on AWS, Kubernetes, Observability, OpenTelemetry, Prometheus, Incident Response, and Site Reliability Engineering by Mahin Raza.',
+    'Hands-on deep dives, troubleshooting notes, and architecture patterns across Cloud, Kubernetes, Infrastructure as Code, Observability, Linux, Security, and SRE.',
   repoUrl: 'https://github.com/Mahin556/mahinraza.online',
   githubProfileUrl: 'https://github.com/Mahin556',
   portfolioUrl: 'https://mahinraza.online',
@@ -14,7 +14,7 @@ export const SITE_CONFIG = {
   author: {
     username: 'Mahin556',
     name: 'Mahin Raza',
-    bio: 'DevOps & Cloud Engineer writing practical blogs on AWS, Kubernetes, Observability, OpenTelemetry, Prometheus, and Site Reliability Engineering.',
+    bio: 'Sharing hands-on deep dives and field notes on DevOps, Cloud, Kubernetes, Infrastructure as Code, Observability, Security, and SRE.',
     avatarUrl: 'https://avatars.githubusercontent.com/Mahin556?s=160',
     githubUrl: 'https://github.com/Mahin556',
   },
