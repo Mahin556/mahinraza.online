@@ -215,7 +215,7 @@ const navLinks = [
         root.classList.toggle('dark', nextIsDark);
         root.style.colorScheme = nextIsDark ? 'dark' : 'light';
         try {
-          localStorage.setItem('blog-theme', nextIsDark ? 'dark' : 'light');
+          localStorage.setItem('theme-preference', nextIsDark ? 'dark' : 'light');
         } catch (_) {}
         const metaTheme = document.getElementById('meta-theme-color');
         if (metaTheme) {

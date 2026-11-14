@@ -108,19 +108,19 @@ const breadcrumbSchema =
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" id="meta-theme-color" content="#0b1120" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" id="meta-theme-color" content="#0f766e" />
 
-    <!-- Prevent flash of wrong theme before first paint (defaults to dark) -->
+    <!-- Prevent flash of wrong theme before first paint (defaults to light) -->
     <script is:inline>
       (function () {
         try {
-          const saved = localStorage.getItem('blog-theme');
-          const theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+          const saved = localStorage.getItem('theme-preference');
+          const theme = saved === 'light' || saved === 'dark' ? saved : 'light';
           const isDark = theme === 'dark';
           document.documentElement.classList.toggle('dark', isDark);
           document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';

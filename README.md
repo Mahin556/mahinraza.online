@@ -272,7 +272,7 @@ Open your GitHub repository → **Settings → Secrets and variables → Actions
 
 - **Site Title, Domain, Bio, Portfolio & GitHub URLs:** Edit [`src/lib/site.ts`](./src/lib/site.ts) (`SITE_CONFIG`).
 - **Author Profiles:** Edit [`Authors.json`](./Authors.json).
-- **Dark / Light Theme:** Defaults to **Dark Mode** (`#0b1120` obsidian slate) with a persistent Sun/Moon toggle in [`src/components/Header.astro`](./src/components/Header.astro) (`localStorage` key `'blog-theme'`) and zero-FOUC initialization in [`src/layouts/BaseLayout.astro`](./src/layouts/BaseLayout.astro).
+- **Light / Dark Theme:** Defaults to **Light Mode** (`#f8fafc` / `#ffffff`) with a persistent Sun/Moon toggle in [`src/components/Header.astro`](./src/components/Header.astro) (`localStorage` key `'theme-preference'`) and zero-FOUC initialization in [`src/layouts/BaseLayout.astro`](./src/layouts/BaseLayout.astro).
 - **Theme Colors & Card/Tag Accents:** Edit [`src/lib/colors.ts`](./src/lib/colors.ts) and [`src/styles/global.css`](./src/styles/global.css).
 - **Favicon:** Edit [`public/favicon.svg`](./public/favicon.svg).
 
