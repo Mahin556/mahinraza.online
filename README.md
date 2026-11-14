@@ -347,7 +347,7 @@ npm run publish:hashnode
 ## 11. Deploying to Cloudflare Pages
 
 1. Sign in to the [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
-2. Select the `Mahin556/mahinraza.online` GitHub repository.
+2. Select the `Mahin556/blog.mahinraza.online` GitHub repository.
 3. Configure build settings:
    - **Production branch:** `main` (or `master`)
    - **Framework preset:** `Astro`
