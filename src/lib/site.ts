@@ -8,7 +8,7 @@ export const SITE_CONFIG = {
     'Hands-on deep dives, troubleshooting notes, and architecture patterns across Cloud, Kubernetes, Infrastructure as Code, Observability, Linux, Security, and SRE.',
   repoUrl: 'https://github.com/Mahin556/blog.mahinraza.online',
   githubProfileUrl: 'https://github.com/Mahin556',
-  portfolioUrl: 'https://mahinraza.online',
+  portfolioUrl: 'https://portfolio.mahinraza.online',
   defaultOgImage: '/og-default.png',
   postsPerPage: 24,
   author: {
